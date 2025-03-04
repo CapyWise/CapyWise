@@ -33,7 +33,7 @@ class LandingPageFinal extends StatelessWidget {
             height: 360,
             decoration: BoxDecoration(
               image: const DecorationImage(
-                image: NetworkImage("https://via.placeholder.com/360"),
+                image: NetworkImage(""),
                 fit: BoxFit.cover,
               ),
               borderRadius: BorderRadius.circular(20),
@@ -77,19 +77,19 @@ class LandingPageFinal extends StatelessWidget {
                 FeatureCard(
                   title: 'Calendar',
                   description: 'Keep track of your daily schedule, assignments, and events all in one place.',
-                  imageUrl: 'https://via.placeholder.com/200',
+                  imageUrl: '',
                   color: Color(0xFFDDAF82),
                 ),
                 FeatureCard(
                   title: 'Exam Scheduler',
                   description: 'Plan and manage your final exams effortlessly to avoid last-minute stress.',
-                  imageUrl: 'https://via.placeholder.com/200',
+                  imageUrl: '',
                   color: Color(0xFFFDF5D5),
                 ),
                 FeatureCard(
                   title: 'Reminders',
                   description: 'Set notifications for important deadlines, exams, and tasks to stay on top of your academic life.',
-                  imageUrl: 'https://via.placeholder.com/200',
+                  imageUrl: '',
                   color: Color(0xFFEA6D61),
                 ),
               ],
@@ -99,20 +99,22 @@ class LandingPageFinal extends StatelessWidget {
 
           // Get Started Button
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 24),
             decoration: BoxDecoration(
-              color: const Color(0xFFFCFCFC),
+              color: const Color(0xFF271908),
               borderRadius: BorderRadius.circular(40),
             ),
             child: const Text(
               'Get Started',
+              textAlign: TextAlign.center,
               style: TextStyle(
-                color: Colors.black,
-                fontSize: 24,
+                color: Colors.white,
+                fontSize: 22,
                 fontFamily: 'Poppins',
               ),
             ),
           ),
+          const SizedBox(height: 20)
         ],
       ),
     );
