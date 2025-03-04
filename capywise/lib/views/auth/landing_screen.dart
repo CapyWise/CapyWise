@@ -55,7 +55,7 @@ class LandingPageFinal extends StatelessWidget {
 
           // Description
           const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
+            padding: EdgeInsets.symmetric(horizontal: 400),
             child: Text(
               'We are CapyWise, a team of passionate students dedicated to simplifying academic scheduling. Our goal is to help students stay organized and stress-free with an all-in-one calendar solution!',
               textAlign: TextAlign.center,
