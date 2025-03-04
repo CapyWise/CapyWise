@@ -1,43 +1,46 @@
 import 'package:flutter/material.dart';
 
-class SidebarWidget extends StatefulWidget {
+class SidebarWidget extends StatefulWidget
+{
   const SidebarWidget({super.key});
 
   @override
-  SidebarWidgetState createState() {
+  SidebarWidgetState createState()
+  {
     return SidebarWidgetState();
   }
 }
 
-class SidebarWidgetState extends State<SidebarWidget> {
+class SidebarWidgetState extends State<SidebarWidget>
+{
   bool isCollapsed = false;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)
+  {
     return AnimatedContainer(
       duration: Duration(milliseconds: 300),
       curve: Curves.easeInOut,
-      width: isCollapsed ? 60 : 200, // Sidebar width toggle
-      color: Color(0xFFF4D7DA), // Muted pink sidebar background
+      width: isCollapsed ? 60 : 200,
+      color: Color.fromARGB(255, 200, 162, 165),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Sidebar Header with Collapse Button
+        children:
+        [
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             child: Row(
-              mainAxisAlignment:
-                  MainAxisAlignment.end, // Aligns arrow to the right
-              children: [
-                // Profile Icon + CapyWise Text (Only in Expanded State)
+              mainAxisAlignment: MainAxisAlignment.end,
+              children:
+              [
                 if (!isCollapsed)
                   Expanded(
                     child: Row(
-                      children: [
+                      children:
+                      [
                         CircleAvatar(
                           radius: 20,
-                          backgroundColor:
-                              Colors.grey[300], // Placeholder color
+                          backgroundColor: Colors.grey[300],
                           child: Icon(Icons.pets, color: Colors.black54),
                         ),
                         SizedBox(width: 10),
@@ -47,18 +50,19 @@ class SidebarWidgetState extends State<SidebarWidget> {
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                             fontFamily: 'Poppins',
+                            color: Colors.white,
                           ),
                         ),
                       ],
                     ),
                   ),
-
-                // Custom Collapse Button (No Implicit Hover Effect)
                 MouseRegion(
                   cursor: SystemMouseCursors.click,
                   child: GestureDetector(
-                    onTap: () {
-                      setState(() {
+                    onTap: ()
+                    {
+                      setState(()
+                      {
                         isCollapsed = !isCollapsed;
                       });
                     },
@@ -69,10 +73,8 @@ class SidebarWidgetState extends State<SidebarWidget> {
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Icon(
-                        isCollapsed
-                            ? Icons.arrow_forward_ios
-                            : Icons.arrow_back_ios,
-                        color: Colors.black54,
+                        isCollapsed ? Icons.arrow_forward_ios : Icons.arrow_back_ios,
+                        color: Colors.white,
                       ),
                     ),
                   ),
@@ -83,62 +85,49 @@ class SidebarWidgetState extends State<SidebarWidget> {
 
           SizedBox(height: 10),
 
-          // Navigation Items with Hover Effects
-          SidebarItem(
-            icon: Icons.dashboard,
-            title: "Dashboard",
-            isCollapsed: isCollapsed,
-            hasHoverEffect: true,
-          ),
-          SidebarItem(
-            icon: Icons.calendar_today,
-            title: "Calendars",
-            isCollapsed: isCollapsed,
-            hasHoverEffect: true,
-          ),
-          SidebarItem(
-            icon: Icons.schedule,
-            title: "Exam Scheduler",
-            isCollapsed: isCollapsed,
-            hasHoverEffect: true,
-          ),
-          SidebarItem(
-            icon: Icons.notifications,
-            title: "Reminders",
-            isCollapsed: isCollapsed,
-            hasHoverEffect: true,
-          ),
-          SidebarItem(
-            icon: Icons.help,
-            title: "Copy Assist",
-            isCollapsed: isCollapsed,
-            hasHoverEffect: true,
-          ),
-          SidebarItem(
-            icon: Icons.settings,
-            title: "Settings",
-            isCollapsed: isCollapsed,
-            hasHoverEffect: true,
-          ),
+          SidebarItem(icon: Icons.dashboard, title: "Dashboard", isCollapsed: isCollapsed, hasHoverEffect: true),
+          SidebarItem(icon: Icons.calendar_today, title: "Calendars", isCollapsed: isCollapsed, hasHoverEffect: true),
+          SidebarItem(icon: Icons.schedule, title: "Exam Scheduler", isCollapsed: isCollapsed, hasHoverEffect: true),
+          SidebarItem(icon: Icons.notifications, title: "Reminders", isCollapsed: isCollapsed, hasHoverEffect: true),
+          SidebarItem(icon: Icons.help, title: "Capy Assist", isCollapsed: isCollapsed, hasHoverEffect: true),
+          SidebarItem(icon: Icons.settings, title: "Settings", isCollapsed: isCollapsed, hasHoverEffect: true),
 
           Spacer(),
+          Divider(color: Colors.white54, thickness: 1, indent: 10, endIndent: 10),
+          
+          GestureDetector(
+            onTap: () {
+              print("Profile clicked");
+            },
+            child: SidebarItem(icon: Icons.pets, title: "capy", isCollapsed: isCollapsed, hasHoverEffect: false),
+          ),
 
-          // User Profile & Logout (No Hover Effect)
-          Column(
-            children: [
-              SidebarItem(
-                icon: Icons.pets,
-                title: "capy",
-                isCollapsed: isCollapsed,
-                hasHoverEffect: false,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+            child: TextButton(
+              onPressed: () {
+                print("Logout clicked");
+              },
+              style: TextButton.styleFrom(
+                backgroundColor: Colors.white24,
+                padding: EdgeInsets.symmetric(vertical: 12),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
               ),
-              SidebarItem(
-                icon: Icons.logout,
-                title: "Logout",
-                isCollapsed: isCollapsed,
-                hasHoverEffect: false,
+              child: Row(
+                mainAxisAlignment: isCollapsed ? MainAxisAlignment.center : MainAxisAlignment.start,
+                children: [
+                  Icon(Icons.logout, color: Colors.white),
+                  if (!isCollapsed)
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10),
+                      child: Text(
+                        "Logout",
+                        style: TextStyle(fontFamily: 'Poppins', color: Colors.white, fontSize: 16),
+                      ),
+                    ),
+                ],
               ),
-            ],
+            ),
           ),
         ],
       ),
@@ -146,34 +135,39 @@ class SidebarWidgetState extends State<SidebarWidget> {
   }
 }
 
-// Sidebar Item Widget with Smooth Hover Effect (No Gray Background)
-class SidebarItem extends StatefulWidget {
+class SidebarItem extends StatefulWidget
+{
   final IconData icon;
   final String title;
   final bool isCollapsed;
-  final bool hasHoverEffect; // Control hover effect
+  final bool hasHoverEffect;
 
-  const SidebarItem({
-    super.key,
-    required this.icon,
-    required this.title,
-    required this.isCollapsed,
-    required this.hasHoverEffect,
-  });
+  const SidebarItem(
+    {
+      super.key,
+      required this.icon,
+      required this.title,
+      required this.isCollapsed,
+      required this.hasHoverEffect,
+    }
+  );
 
   @override
-  SidebarItemState createState() {
+  SidebarItemState createState()
+  {
     return SidebarItemState();
   }
 }
 
-class SidebarItemState extends State<SidebarItem> {
+class SidebarItemState extends State<SidebarItem>
+{
   bool isHovered = false;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)
+  {
     return Material(
-      type: MaterialType.transparency, // Ensure no implicit hover effects
+      type: MaterialType.transparency,
       child: MouseRegion(
         onEnter: (_) {
           if (widget.hasHoverEffect) {
@@ -190,34 +184,19 @@ class SidebarItemState extends State<SidebarItem> {
           }
         },
         child: AnimatedContainer(
-          duration: Duration(milliseconds: 150), // Fast & smooth transition
-          color:
-              isHovered
-                  ? Color(0xFFFCE8E8)
-                  : Colors.transparent, // Light pink hover
-          padding: EdgeInsets.symmetric(
-            vertical: 12,
-            horizontal: 15,
-          ), // Keeps spacing consistent
+          duration: Duration(milliseconds: 150),
+          color: isHovered ? Color.fromARGB(255, 250, 232, 232) : Color.fromARGB(255, 200, 162, 165),
+          padding: EdgeInsets.symmetric(vertical: 12, horizontal: 15),
           child: Row(
             children: [
-              Icon(
-                widget.icon,
-                color:
-                    isHovered
-                        ? Colors.white
-                        : Colors.black54, // Icon turns white when hovered
-              ),
+              Icon(widget.icon, color: isHovered ? Colors.black54 : Colors.white),
               if (!widget.isCollapsed) ...[
                 SizedBox(width: 10),
                 Text(
                   widget.title,
                   style: TextStyle(
                     fontFamily: 'Poppins',
-                    color:
-                        isHovered
-                            ? Colors.white
-                            : Colors.black54, // Text turns white when hovered
+                    color: isHovered ? Colors.black54 : Colors.white,
                     fontSize: 16,
                   ),
                 ),
@@ -229,197 +208,3 @@ class SidebarItemState extends State<SidebarItem> {
     );
   }
 }
-
-/*
-import 'package:flutter/material.dart';
-
-class SidebarWidget extends StatefulWidget {
-  const SidebarWidget({super.key});
-
-  @override
-  SidebarWidgetState createState() {
-    return SidebarWidgetState();
-  }
-}
-
-class SidebarWidgetState extends State<SidebarWidget> {
-  bool isCollapsed = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedContainer(
-      duration: Duration(milliseconds: 300),
-      curve: Curves.easeInOut,
-      width: isCollapsed ? 60 : 200, // Sidebar width toggle
-      color: Colors.brown[100], // Background color
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Sidebar Header with Collapse Button
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-            child: Row(
-              mainAxisAlignment:
-                  MainAxisAlignment.end, // Aligns arrow to the right
-              children: [
-                // Profile Icon + CapyWise Text (Only in Expanded State)
-                if (!isCollapsed)
-                  Expanded(
-                    child: Row(
-                      children: [
-                        CircleAvatar(
-                          radius: 20,
-                          backgroundColor:
-                              Colors.grey[300], // Placeholder color
-                          child: Icon(Icons.person, color: Colors.black54),
-                        ),
-                        SizedBox(width: 10),
-                        Text(
-                          "CapyWise",
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                // Collapse Button (Always Visible)
-                IconButton(
-                  icon: Icon(
-                    isCollapsed
-                        ? Icons.arrow_forward_ios
-                        : Icons.arrow_back_ios,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      isCollapsed = !isCollapsed;
-                    });
-                  },
-                ),
-              ],
-            ),
-          ),
-
-          SizedBox(height: 10),
-
-          // Navigation Items with Hover Effects
-          SidebarItem(
-            icon: Icons.dashboard,
-            title: "Dashboard",
-            isCollapsed: isCollapsed,
-          ),
-          SidebarItem(
-            icon: Icons.calendar_today,
-            title: "Calendars",
-            isCollapsed: isCollapsed,
-          ),
-          SidebarItem(
-            icon: Icons.schedule,
-            title: "Exam Scheduler",
-            isCollapsed: isCollapsed,
-          ),
-          SidebarItem(
-            icon: Icons.notifications,
-            title: "Reminders",
-            isCollapsed: isCollapsed,
-          ),
-          SidebarItem(
-            icon: Icons.help,
-            title: "Copy Assist",
-            isCollapsed: isCollapsed,
-          ),
-          SidebarItem(
-            icon: Icons.settings,
-            title: "Settings",
-            isCollapsed: isCollapsed,
-          ),
-
-          Spacer(),
-
-          // User Profile & Logout
-          Column(
-            children: [
-              SidebarItem(
-                icon: Icons.pets,
-                title: "capy",
-                isCollapsed: isCollapsed,
-              ),
-              SidebarItem(
-                icon: Icons.logout,
-                title: "Logout",
-                isCollapsed: isCollapsed,
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// Sidebar Item Widget with Hover Effect
-class SidebarItem extends StatefulWidget {
-  final IconData icon;
-  final String title;
-  final bool isCollapsed;
-
-  const SidebarItem({
-    super.key,
-    required this.icon,
-    required this.title,
-    required this.isCollapsed,
-  });
-
-  @override
-  SidebarItemState createState() {
-    return SidebarItemState();
-  }
-}
-
-class SidebarItemState extends State<SidebarItem> {
-  bool isHovered = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return MouseRegion(
-      onEnter: (_) {
-        setState(() {
-          isHovered = true;
-        });
-      },
-      onExit: (_) {
-        setState(() {
-          isHovered = false;
-        });
-      },
-      child: AnimatedContainer(
-        duration: Duration(milliseconds: 200),
-        decoration: BoxDecoration(
-          color: isHovered ? Colors.brown[300] : Colors.transparent,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: ListTile(
-          leading: Icon(
-            widget.icon,
-            color: isHovered ? Colors.white : Colors.black54,
-          ),
-          title:
-              widget.isCollapsed
-                  ? null // Completely hide text when sidebar is collapsed
-                  : Text(
-                    widget.title,
-                    style: TextStyle(
-                      color: isHovered ? Colors.white : Colors.black54,
-                    ),
-                  ),
-          onTap: () {
-            // Handle navigation logic
-          },
-        ),
-      ),
-    );
-  }
-}
-*/

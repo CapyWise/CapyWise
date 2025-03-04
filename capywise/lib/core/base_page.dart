@@ -1,35 +1,51 @@
 import 'package:flutter/material.dart';
 import '../widgets/sidebar_widget.dart';
 
-class BasePage extends StatelessWidget {
-  const BasePage({super.key});
+class BasePage extends StatelessWidget
+{
+  const BasePage(
+    {
+      super.key
+    }
+  );
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)
+  {
     return Scaffold(
-      backgroundColor: Color(0xFFFCE8E8), // Lighter pink background
+      backgroundColor: Color.fromARGB(
+        255,
+        250,
+        232,
+        232,
+      ),
       body: Row(
-        children: [
+        children:
+        [
           const SidebarWidget(),
 
           Expanded(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start, // Align left
-              children: [
-                // Top Bar Section
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children:
+              [
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-                  color: Color(0xFFFCE8E8), // Match the lighter pink
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 15
+                  ),
+                  color: Color(0xFFFCE8E8),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Title & Dropdown (Left Side)
+                    children:
+                    [
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
+                        children:
+                        [
                           Text(
-                            "Title", // Your page title
+                            "Title",
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
@@ -37,44 +53,59 @@ class BasePage extends StatelessWidget {
                             ),
                           ),
                           SizedBox(
-                            height: 5,
-                          ), // Space between title and dropdown
+                            height: 5
+                          ),
                           DropdownButton<String>(
-                            items: [
+                            items:
+                            [
                               DropdownMenuItem(
                                 value: "Option 1",
-                                child: Text("Option 1"),
+                                child: Text(
+                                  "Option 1"
+                                ),
                               ),
                               DropdownMenuItem(
                                 value: "Option 2",
-                                child: Text("Option 2"),
+                                child: Text(
+                                  "Option 2"
+                                ),
                               ),
                             ],
-                            onChanged: (String? newValue) {
+                            onChanged: (String? newValue)
+                            {
                               // Handle dropdown selection
                             },
                             hint: Text(
                               "Choose something",
-                              style: TextStyle(fontFamily: 'Poppins'),
+                              style: TextStyle(
+                                fontFamily: 'Poppins'
+                              ),
                             ),
                           ),
                         ],
                       ),
 
-                      // Buttons (Right Side)
                       Row(
-                        children: [
+                        children:
+                        [
                           ElevatedButton(
                             onPressed: () {},
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.blue, // Match the example
+                              backgroundColor: const Color.fromARGB(255, 43, 10, 48),
+                              foregroundColor: Colors.white,
                             ),
-                            child: Text("Primary Action"),
+                            child: Text(
+                              "Primary Action"
+                            ),
                           ),
-                          SizedBox(width: 10),
+                          SizedBox(
+                            width: 10
+                          ),
                           OutlinedButton(
                             onPressed: () {},
-                            child: Text("Default"),
+                            child: Text(
+                              "Default"
+                            ),
                           ),
                         ],
                       ),
@@ -82,19 +113,20 @@ class BasePage extends StatelessWidget {
                   ),
                 ),
 
-                // Main Content
                 Expanded(
                   child: Padding(
                     padding: EdgeInsets.all(20),
                     child: Row(
-                      children: [
+                      children:
+                      [
                         Expanded(
                           flex: 3,
                           child: Container(
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(10),
-                              boxShadow: [
+                              boxShadow:
+                              [
                                 BoxShadow(
                                   color: Colors.black12,
                                   blurRadius: 5,
@@ -104,14 +136,17 @@ class BasePage extends StatelessWidget {
                             ),
                           ),
                         ),
-                        SizedBox(width: 20),
+                        SizedBox(
+                          width: 20
+                        ),
                         Expanded(
                           flex: 1,
                           child: Container(
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(10),
-                              boxShadow: [
+                              boxShadow:
+                              [
                                 BoxShadow(
                                   color: Colors.black12,
                                   blurRadius: 5,
