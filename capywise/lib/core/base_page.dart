@@ -1,50 +1,38 @@
 import 'package:flutter/material.dart';
 import '../widgets/sidebar_widget.dart';
 
-class BasePage extends StatelessWidget
-{
-  const BasePage(
-    {
-      super.key
-    }
-  );
+/// A base layout class with a sidebar and top area.
+/// Child classes (e.g., Dashboard) override [buildMainArea] to show their own content.
+class BasePage extends StatelessWidget {
+  const BasePage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context)
-  {
+  Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(
-        255,
-        250,
-        232,
-        232,
-      ),
+      backgroundColor: const Color.fromARGB(255, 250, 232, 232),
       body: Row(
-        children:
-        [
+        children: [
+          // LEFT SIDEBAR
           const SidebarWidget(),
 
+          // MAIN COLUMN (Top bar + center content)
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children:
-              [
+              children: [
+                // TOP BAR
                 Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 15
-                  ),
-                  color: Color(0xFFFCE8E8),
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                  color: const Color(0xFFFCE8E8),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children:
-                    [
+                    children: [
+                      // Example Title + Dropdown
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children:
-                        [
-                          Text(
+                        children: [
+                          const Text(
                             "Title",
                             style: TextStyle(
                               fontSize: 20,
@@ -52,60 +40,44 @@ class BasePage extends StatelessWidget
                               fontFamily: 'Poppins',
                             ),
                           ),
-                          SizedBox(
-                            height: 5
-                          ),
+                          const SizedBox(height: 5),
                           DropdownButton<String>(
-                            items:
-                            [
+                            items: const [
                               DropdownMenuItem(
                                 value: "Option 1",
-                                child: Text(
-                                  "Option 1"
-                                ),
+                                child: Text("Option 1"),
                               ),
                               DropdownMenuItem(
                                 value: "Option 2",
-                                child: Text(
-                                  "Option 2"
-                                ),
+                                child: Text("Option 2"),
                               ),
                             ],
-                            onChanged: (String? newValue)
-                            {
+                            onChanged: (String? newValue) {
                               // Handle dropdown selection
                             },
-                            hint: Text(
+                            hint: const Text(
                               "Choose something",
-                              style: TextStyle(
-                                fontFamily: 'Poppins'
-                              ),
+                              style: TextStyle(fontFamily: 'Poppins'),
                             ),
                           ),
                         ],
                       ),
 
+                      // Example Buttons
                       Row(
-                        children:
-                        [
+                        children: [
                           ElevatedButton(
                             onPressed: () {},
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color.fromARGB(255, 43, 10, 48),
                               foregroundColor: Colors.white,
                             ),
-                            child: Text(
-                              "Primary Action"
-                            ),
+                            child: const Text("Primary Action"),
                           ),
-                          SizedBox(
-                            width: 10
-                          ),
+                          const SizedBox(width: 10),
                           OutlinedButton(
                             onPressed: () {},
-                            child: Text(
-                              "Default"
-                            ),
+                            child: const Text("Default"),
                           ),
                         ],
                       ),
@@ -113,58 +85,23 @@ class BasePage extends StatelessWidget
                   ),
                 ),
 
+                // MAIN AREA (child classes override here)
                 Expanded(
-                  child: Padding(
-                    padding: EdgeInsets.all(20),
-                    child: Row(
-                      children:
-                      [
-                        Expanded(
-                          flex: 3,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                              boxShadow:
-                              [
-                                BoxShadow(
-                                  color: Colors.black12,
-                                  blurRadius: 5,
-                                  spreadRadius: 2,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 20
-                        ),
-                        Expanded(
-                          flex: 1,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                              boxShadow:
-                              [
-                                BoxShadow(
-                                  color: Colors.black12,
-                                  blurRadius: 5,
-                                  spreadRadius: 2,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  child: buildMainArea(context),
                 ),
               ],
             ),
           ),
         ],
       ),
+    );
+  }
+
+  /// Override this method in child classes to display your custom content.
+  @protected
+  Widget buildMainArea(BuildContext context) {
+    return const Center(
+      child: Text("BasePage: No content here yet!"),
     );
   }
 }
