@@ -1,161 +1,133 @@
+
 import 'package:flutter/material.dart';
 import '../widgets/sidebar_widget.dart';
 
-class BasePage extends StatelessWidget
-{
-  const BasePage(
-    {
-      super.key
-    }
-  );
+/// BasePage is a reusable layout widget that provides a structured UI
+/// with a sidebar, a header, and a configurable middle and right sidebar content.
+///
+/// Usage:
+/// - For pages that need both middle content and right sidebar (e.g., Dashboard, Calendar):
+///   ```dart
+///   BasePage(
+///     title: "Dashboard",
+///     middleContent: DashboardContent(),
+///     rightSidebar: DashboardSidebar(),
+///     showRightSidebar: true,
+///   );
+///   ```
+///
+/// - For pages that only need the middle content (e.g., Exam Scheduler, Reminders):
+///   ```dart
+///   BasePage(
+///     title: "Exam Scheduler",
+///     middleContent: ExamSchedulerContent(),
+///     showRightSidebar: false,
+///   );
+///   ```
+class BasePage extends StatelessWidget {
+  final String title; // The title displayed in the header
+  final Widget middleContent; // The main content displayed in the middle section
+  final Widget? rightSidebar; // Optional widget for the right sidebar content
+  final bool showRightSidebar; // Controls whether the right sidebar is displayed
+
+  const BasePage({
+    super.key,
+    required this.title,
+    required this.middleContent,
+    this.rightSidebar,
+    this.showRightSidebar = true,
+  });
 
   @override
-  Widget build(BuildContext context)
-  {
+  Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(
-        255,
-        250,
-        232,
-        232,
-      ),
+      backgroundColor: const Color.fromARGB(255, 250, 232, 232), // Background color of the page
       body: Row(
-        children:
-        [
-          const SidebarWidget(),
-
+        children: [
+          const SidebarWidget(), // Permanent sidebar navigation menu
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children:
-              [
+              children: [
+                // Header section containing the title and action buttons
                 Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 15
-                  ),
-                  color: Color(0xFFFCE8E8),
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                  color: const Color(0xFFFCE8E8), // Light pink header background
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children:
-                    [
+                    children: [
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children:
-                        [
+                        children: [
                           Text(
-                            "Title",
-                            style: TextStyle(
+                            title,
+                            style: const TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                               fontFamily: 'Poppins',
                             ),
                           ),
-                          SizedBox(
-                            height: 5
-                          ),
+                          const SizedBox(height: 5),
                           DropdownButton<String>(
-                            items:
-                            [
+                            items: const [
                               DropdownMenuItem(
                                 value: "Option 1",
-                                child: Text(
-                                  "Option 1"
-                                ),
+                                child: Text("Option 1"),
                               ),
                               DropdownMenuItem(
                                 value: "Option 2",
-                                child: Text(
-                                  "Option 2"
-                                ),
+                                child: Text("Option 2"),
                               ),
                             ],
-                            onChanged: (String? newValue)
-                            {
+                            onChanged: (String? newValue) {
                               // Handle dropdown selection
                             },
-                            hint: Text(
+                            hint: const Text(
                               "Choose something",
-                              style: TextStyle(
-                                fontFamily: 'Poppins'
-                              ),
+                              style: TextStyle(fontFamily: 'Poppins'),
                             ),
                           ),
                         ],
                       ),
-
+                      // Action buttons on the right side of the header
                       Row(
-                        children:
-                        [
+                        children: [
                           ElevatedButton(
                             onPressed: () {},
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color.fromARGB(255, 43, 10, 48),
                               foregroundColor: Colors.white,
                             ),
-                            child: Text(
-                              "Primary Action"
-                            ),
+                            child: const Text("Primary Action"),
                           ),
-                          SizedBox(
-                            width: 10
-                          ),
+                          const SizedBox(width: 10),
                           OutlinedButton(
                             onPressed: () {},
-                            child: Text(
-                              "Default"
-                            ),
+                            child: const Text("Default"),
                           ),
                         ],
                       ),
                     ],
                   ),
                 ),
-
+                // Main content area with an optional right sidebar
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(20),
                     child: Row(
-                      children:
-                      [
+                      children: [
                         Expanded(
-                          flex: 3,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                              boxShadow:
-                              [
-                                BoxShadow(
-                                  color: Colors.black12,
-                                  blurRadius: 5,
-                                  spreadRadius: 2,
-                                ),
-                              ],
-                            ),
+                          flex: 3, // Main content takes 3x space relative to sidebar
+                          child: middleContent,
+                        ),
+                        if (showRightSidebar && rightSidebar != null) ...[
+                          const SizedBox(width: 20),
+                          Expanded(
+                            flex: 1, // Right sidebar takes 1x space
+                            child: rightSidebar!,
                           ),
-                        ),
-                        SizedBox(
-                          width: 20
-                        ),
-                        Expanded(
-                          flex: 1,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                              boxShadow:
-                              [
-                                BoxShadow(
-                                  color: Colors.black12,
-                                  blurRadius: 5,
-                                  spreadRadius: 2,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
+                        ]
                       ],
                     ),
                   ),
