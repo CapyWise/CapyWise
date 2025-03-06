@@ -1,218 +1,251 @@
-
 import 'package:flutter/material.dart';
 
-/// SidebarWidget is a collapsible sidebar navigation menu.
-/// It provides navigation options and includes a profile section and a logout button.
+/// **SidebarWidget**
+/// 
+/// This widget represents a collapsible sidebar used for navigation.
+/// 
+/// Features:
+/// - **Expands and collapses** on button press.
+/// - **Navigation items with hover effects** for better UI feedback.
+/// - **Profile section** displayed at the bottom.
+/// - **Logout button** with proper spacing and alignment.
+/// 
+/// This sidebar is designed to be used across multiple pages in an app.
 class SidebarWidget extends StatefulWidget {
-  const SidebarWidget({super.key});
+    const SidebarWidget({super.key});
 
-  @override
-  SidebarWidgetState createState() {
-    return SidebarWidgetState();
-  }
+    @override
+    SidebarWidgetState createState() => SidebarWidgetState();
 }
 
 class SidebarWidgetState extends State<SidebarWidget> {
-  bool isCollapsed = false; // Tracks the collapsed state of the sidebar
+    bool isCollapsed = true; // Default state: collapsed
+    int selectedIndex = 0; // Tracks which navigation item is selected
+    int? hoveredIndex; // Tracks which navigation item is hovered
 
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.easeInOut,
-      width: isCollapsed ? 60 : 200, // Adjusts width based on collapsed state
-      color: const Color.fromARGB(255, 200, 162, 165),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Sidebar Header: Includes profile image and app name
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                if (!isCollapsed)
-                  Expanded(
-                    child: Row(
-                      children: [
-                        // Profile Avatar
-                        const CircleAvatar(
-                          radius: 20,
-                          backgroundColor: Colors.grey,
-                          child: Icon(Icons.pets, color: Colors.black54),
-                        ),
-                        const SizedBox(width: 10),
-                        // App Name
-                        const Expanded(
-                          child: Text(
-                            "CapyWise",
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'Poppins',
-                              color: Colors.white,
-                            ),
-                            overflow: TextOverflow.ellipsis, // Prevent text overflow
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                // Collapse/Expand Button
-                MouseRegion(
-                  cursor: SystemMouseCursors.click,
-                  child: GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        isCollapsed = !isCollapsed;
-                      });
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: Colors.transparent,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Icon(
-                        isCollapsed ? Icons.arrow_forward_ios : Icons.arrow_back_ios,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+    @override
+    Widget build(BuildContext context) {
+        return AnimatedContainer(
+            duration: const Duration(milliseconds: 250), // Smooth expansion/collapse transition
+            width: isCollapsed ? 60 : 200, // Adjusts width based on collapse state
+            decoration: const BoxDecoration(
+                color: Color.fromARGB(255, 200, 162, 165), // Sidebar background color
             ),
-          ),
-
-          const SizedBox(height: 10),
-
-          // Sidebar Navigation Items
-          SidebarItem(icon: Icons.dashboard, title: "Dashboard", isCollapsed: isCollapsed, hasHoverEffect: true),
-          SidebarItem(icon: Icons.calendar_today, title: "Calendars", isCollapsed: isCollapsed, hasHoverEffect: true),
-          SidebarItem(icon: Icons.schedule, title: "Exam Scheduler", isCollapsed: isCollapsed, hasHoverEffect: true),
-          SidebarItem(icon: Icons.notifications, title: "Reminders", isCollapsed: isCollapsed, hasHoverEffect: true),
-          SidebarItem(icon: Icons.help, title: "Capy Assist", isCollapsed: isCollapsed, hasHoverEffect: true),
-          SidebarItem(icon: Icons.settings, title: "Settings", isCollapsed: isCollapsed, hasHoverEffect: true),
-
-          const Spacer(),
-          const Divider(color: Colors.white54, thickness: 1, indent: 10, endIndent: 10),
-
-          // Profile Section (Selectable)
-          GestureDetector(
-            onTap: () {
-              print("Profile clicked");
-            },
-            child: SidebarItem(icon: Icons.pets, title: "capy", isCollapsed: isCollapsed, hasHoverEffect: false),
-          ),
-
-          // Logout Button
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-            child: TextButton(
-              onPressed: () {
-                print("Logout clicked");
-              },
-              style: TextButton.styleFrom(
-                backgroundColor: Colors.white24,
-                padding: const EdgeInsets.symmetric(vertical: 12),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
-              child: Row(
-                mainAxisAlignment: isCollapsed ? MainAxisAlignment.center : MainAxisAlignment.start,
+            child: Column(
                 children: [
-                  const Icon(Icons.logout, color: Colors.white),
-                  if (!isCollapsed)
-                    const Expanded(
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 10),
-                        child: Text(
-                          "Logout",
-                          style: TextStyle(fontFamily: 'Poppins', color: Colors.white, fontSize: 16),
-                          overflow: TextOverflow.ellipsis, // Prevent text overflow
+                    /// **App Logo & Sidebar Toggle Button**
+                    Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 20),
+                        child: Column(
+                            children: [
+                                /// **Capybara Logo**
+                                SizedBox(
+                                    width: 40,
+                                    height: 40,
+                                    child: Image.asset(
+                                        '../assets/images/capybara.png', // Replace with the correct asset path
+                                    ),
+                                ),
+                                const SizedBox(height: 10),
+                                
+                                /// **App Name (Visible only in expanded mode)**
+                                if (!isCollapsed)
+                                    const Text(
+                                        "CapyWise",
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: 'Poppins',
+                                            color: Colors.white,
+                                            overflow: TextOverflow.ellipsis,
+                                        ),
+                                    ),
+                            ],
                         ),
-                      ),
+                    ),
+
+                    /// **Expand/Collapse Toggle Button**
+                    IconButton(
+                        onPressed: () {
+                            setState(() {
+                                isCollapsed = !isCollapsed; // Toggle collapsed state
+                            });
+                        },
+                        icon: Icon(
+                            isCollapsed ? Icons.menu : Icons.arrow_back, // Change icon based on state
+                            color: Colors.white,
+                        ),
+                    ),
+                    const SizedBox(height: 10),
+
+                    /// **Navigation Items**
+                    Expanded(
+                        child: ListView(
+                            padding: EdgeInsets.zero,
+                            children: [
+                                buildNavItem(Icons.dashboard, "Dashboard", 0),
+                                buildNavItem(Icons.calendar_today, "Calendars", 1),
+                                buildNavItem(Icons.schedule, "Exam Scheduler", 2),
+                                buildNavItem(Icons.notifications, "Reminders", 3),
+                                buildNavItem(Icons.help, "Capy Assist", 4),
+                                buildNavItem(Icons.settings, "Settings", 5),
+                            ],
+                        ),
+                    ),
+
+                    /// **Profile & Logout Section**
+                    Column(
+                        children: [
+                            const Divider(color: Colors.white54, thickness: 1), // Separator line
+                            buildProfileSection(), // Profile widget
+                            buildLogoutButton(), // Logout button
+                        ],
                     ),
                 ],
-              ),
             ),
-          ),
-        ],
-      ),
-    );
-  }
-}
+        );
+    }
 
-/// SidebarItem represents an individual item in the sidebar menu.
-/// It supports an icon, title, and hover effects.
-class SidebarItem extends StatefulWidget {
-  final IconData icon; // Icon displayed on the sidebar
-  final String title; // Title text
-  final bool isCollapsed; // Whether the sidebar is collapsed
-  final bool hasHoverEffect; // Determines if hover effect is enabled
-
-  const SidebarItem({
-    super.key,
-    required this.icon,
-    required this.title,
-    required this.isCollapsed,
-    required this.hasHoverEffect,
-  });
-
-  @override
-  SidebarItemState createState() {
-    return SidebarItemState();
-  }
-}
-
-class SidebarItemState extends State<SidebarItem> {
-  bool isHovered = false; // Tracks hover state
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      type: MaterialType.transparency,
-      child: MouseRegion(
-        onEnter: (_) {
-          if (widget.hasHoverEffect) {
-            setState(() {
-              isHovered = true;
-            });
-          }
-        },
-        onExit: (_) {
-          if (widget.hasHoverEffect) {
-            setState(() {
-              isHovered = false;
-            });
-          }
-        },
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 150),
-          color: isHovered ? const Color.fromARGB(255, 250, 232, 232) : const Color.fromARGB(255, 200, 162, 165),
-          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 15),
-          child: Row(
-            children: [
-              Icon(widget.icon, color: isHovered ? Colors.black54 : Colors.white),
-              if (!widget.isCollapsed) ...[
-                const SizedBox(width: 10),
-                Expanded(
-                  child: Text(
-                    widget.title,
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      color: isHovered ? Colors.black54 : Colors.white,
-                      fontSize: 16,
+    /// **Builds a navigation item with hover effects and click selection**
+    Widget buildNavItem(IconData icon, String label, int index) {
+        return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 2), // Prevents hover effect overlap
+            child: MouseRegion(
+                onEnter: (_) => setState(() => hoveredIndex = index), // Detect when hovered
+                onExit: (_) => setState(() => hoveredIndex = null), // Detect when not hovered
+                child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 200), // Smooth hover effect transition
+                    curve: Curves.easeInOut,
+                    height: 50, // Fixed height for hover effect consistency
+                    width: isCollapsed ? 50 : 180, // Width adapts to collapse state
+                    decoration: BoxDecoration(
+                        color: hoveredIndex == index
+                            ? const Color.fromARGB(255, 180, 130, 135) // Slightly darker hover color
+                            : Colors.transparent,
+                        borderRadius: BorderRadius.circular(8),
                     ),
-                    overflow: TextOverflow.ellipsis, // Prevent text overflow
-                  ),
+                    margin: EdgeInsets.symmetric(horizontal: isCollapsed ? 5 : 10), // Centers hover effect
+                    child: InkWell(
+                        onTap: () {
+                            setState(() {
+                                selectedIndex = index; // Update selected navigation index
+                            });
+                            print("Selected index: $index");
+                        },
+                        borderRadius: BorderRadius.circular(8), // Ensures clicks stay within hover box
+                        child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10), // Prevents hover overlap
+                            child: Row(
+                                mainAxisAlignment: isCollapsed ? MainAxisAlignment.center : MainAxisAlignment.start,
+                                children: [
+                                    /// **Navigation Icon**
+                                    Icon(icon, color: Colors.white, size: 24),
+                                    
+                                    /// **Navigation Label (Visible only when expanded)**
+                                    if (!isCollapsed)
+                                        Expanded(
+                                            child: Padding(
+                                                padding: const EdgeInsets.only(left: 12),
+                                                child: Text(
+                                                    label,
+                                                    overflow: TextOverflow.ellipsis, // Prevents overflow
+                                                    softWrap: false,
+                                                    style: const TextStyle(
+                                                        fontFamily: 'Poppins',
+                                                        color: Colors.white,
+                                                        fontSize: 16,
+                                                    ),
+                                                ),
+                                            ),
+                                        ),
+                                ],
+                            ),
+                        ),
+                    ),
                 ),
-              ],
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+            ),
+        );
+    }
+
+    /// **Builds the Profile Section**
+    Widget buildProfileSection() {
+        return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                    /// **Profile Icon (Placeholder)**
+                    const CircleAvatar(
+                        radius: 20,
+                        backgroundColor: Colors.grey,
+                        child: Icon(Icons.pets, color: Colors.black54),
+                    ),
+                    
+                    /// **Username (Visible only when expanded)**
+                    if (!isCollapsed)
+                        Expanded(
+                            child: Padding(
+                                padding: const EdgeInsets.only(left: 10),
+                                child: Text(
+                                    "capy",
+                                    overflow: TextOverflow.ellipsis, // Prevents overflow
+                                    softWrap: false,
+                                    style: const TextStyle(
+                                        fontFamily: 'Poppins',
+                                        color: Colors.white,
+                                    ),
+                                ),
+                            ),
+                        ),
+                ],
+            ),
+        );
+    }
+
+    /// **Builds the Logout Button**
+    Widget buildLogoutButton() {
+        return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+            child: SizedBox(
+                width: isCollapsed ? 50 : double.infinity, // Ensures button fits sidebar width
+                child: TextButton(
+                    onPressed: () {
+                        print("Logout clicked"); // Implement logout functionality here
+                    },
+                    style: TextButton.styleFrom(
+                        backgroundColor: Colors.white24,
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                        ),
+                    ),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                            /// **Logout Icon**
+                            const Icon(Icons.logout, color: Colors.white),
+                            
+                            /// **Logout Label (Visible only when expanded)**
+                            if (!isCollapsed)
+                                Flexible(
+                                    child: Padding(
+                                        padding: const EdgeInsets.only(left: 10),
+                                        child: Text(
+                                            "Logout",
+                                            overflow: TextOverflow.ellipsis,
+                                            softWrap: false,
+                                            style: const TextStyle(
+                                                fontFamily: 'Poppins',
+                                                color: Colors.white,
+                                                fontSize: 16,
+                                            ),
+                                        ),
+                                    ),
+                                ),
+                        ],
+                    ),
+                ),
+            ),
+        );
+    }
 }
