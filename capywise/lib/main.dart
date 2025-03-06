@@ -114,5 +114,9 @@ class _MyHomePageState extends State<MyHomePage> {
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
+<<<<<<< HEAD
 }
 */
+=======
+}
+>>>>>>> f1d1fdcf4359d4ac8ed55af8f77de80818db4d98
