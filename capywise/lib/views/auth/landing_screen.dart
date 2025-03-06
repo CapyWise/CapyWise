@@ -38,7 +38,7 @@ class LandingPageFinal extends StatelessWidget {
               height: 360,
               decoration: BoxDecoration(
                 image: const DecorationImage(
-                  image: NetworkImage(""),
+                  image: AssetImage("../assets/images/capybara.png"),
                   fit: BoxFit.cover,
                 ),
                 borderRadius: BorderRadius.circular(20),
@@ -102,19 +102,19 @@ class LandingPageFinal extends StatelessWidget {
                   FeatureCard(
                     title: 'Calendar',
                     description: 'Keep track of your daily schedule, assignments, and events all in one place.',
-                    imageUrl: '',
+                    imagePath: "../assets/images/calendar_icon.webp",
                     color: Color(0xFFDDAF82),
                   ),
                   FeatureCard(
                     title: 'Exam Scheduler',
                     description: 'Plan and manage your final exams effortlessly to avoid last-minute stress.',
-                    imageUrl: '',
+                    imagePath: "../assets/images/exam_scheduler_icon.png",
                     color: Color(0xFFFDF5D5),
                   ),
                   FeatureCard(
                     title: 'Reminders',
                     description: 'Set notifications for important deadlines, exams, and tasks to stay on top of your academic life.',
-                    imageUrl: '',
+                    imagePath: "../assets/images/reminder_icon.png",
                     color: Color(0xFFEA6D61),
                   ),
                 ],
@@ -132,13 +132,13 @@ class LandingPageFinal extends StatelessWidget {
 class FeatureCard extends StatelessWidget {
   final String title;
   final String description;
-  final String imageUrl;
+  final String imagePath;
   final Color color;
 
   const FeatureCard({
     required this.title,
     required this.description,
-    required this.imageUrl,
+    required this.imagePath,
     required this.color,
     Key? key,
   }) : super(key: key);
@@ -159,7 +159,7 @@ class FeatureCard extends StatelessWidget {
             height: 200,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: NetworkImage(imageUrl),
+                image: AssetImage(imagePath),
                 fit: BoxFit.cover,
               ),
               borderRadius: BorderRadius.circular(20),
