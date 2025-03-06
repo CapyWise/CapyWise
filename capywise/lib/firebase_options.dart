@@ -66,4 +66,5 @@ class DefaultFirebaseOptions {
     authDomain: 'capywise.firebaseapp.com',
     storageBucket: 'capywise.firebasestorage.app',
   );
+
 }
