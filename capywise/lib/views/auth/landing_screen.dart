@@ -11,18 +11,22 @@ class LandingPageFinal extends StatelessWidget {
         child: Column(
           children: [
             // Top Padding
-            const SizedBox(height:40),
+            const SizedBox(height: 40),
 
             // Login Button
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 24),
-              decoration: BoxDecoration(
-                color: const Color(0xFF271908),
-                borderRadius: BorderRadius.circular(40),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF271908),
+                padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 24),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(40),
+                ),
               ),
+              onPressed: () {
+                print("Login button pressed");
+              },
               child: const Text(
                 'Login',
-                textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 22,
@@ -34,8 +38,8 @@ class LandingPageFinal extends StatelessWidget {
 
             // Image
             Container(
-              width: 360,
-              height: 360,
+              width: 200,
+              height: 200,
               decoration: BoxDecoration(
                 image: const DecorationImage(
                   image: AssetImage("../assets/images/capybara.png"),
@@ -60,7 +64,7 @@ class LandingPageFinal extends StatelessWidget {
 
             // Description
             const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 400),
+              padding: EdgeInsets.symmetric(horizontal: 320),
               child: Text(
                 'We are CapyWise, a team of passionate students dedicated to simplifying academic scheduling. Our goal is to help students stay organized and stress-free with an all-in-one calendar solution!',
                 textAlign: TextAlign.center,
@@ -75,15 +79,19 @@ class LandingPageFinal extends StatelessWidget {
             const SizedBox(height: 40),
 
             // Get Started Button
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 24),
-              decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 255, 255, 255),
-                borderRadius: BorderRadius.circular(40),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 24),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(40),
+                ),
               ),
+              onPressed: () {
+                print("Get Started button pressed");
+              },
               child: const Text(
                 'Get Started',
-                textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 22,
@@ -128,7 +136,6 @@ class LandingPageFinal extends StatelessWidget {
   }
 }
 
-
 class FeatureCard extends StatelessWidget {
   final String title;
   final String description;
@@ -145,48 +152,53 @@ class FeatureCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 300,
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(24),
-      ),
-      child: Column(
-        children: [
-          Container(
-            width: 200,
-            height: 200,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(imagePath),
-                fit: BoxFit.cover,
+    return GestureDetector(
+      onTap: () {
+        print('$title card tapped');
+      },
+      child: Container(
+        width: 300,
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(24),
+        ),
+        child: Column(
+          children: [
+            Container(
+              width: 200,
+              height: 200,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(imagePath),
+                  fit: BoxFit.cover,
+                ),
+                borderRadius: BorderRadius.circular(20),
               ),
-              borderRadius: BorderRadius.circular(20),
             ),
-          ),
-          const SizedBox(height: 20),
-          Text(
-            title,
-            style: const TextStyle(
-              color: Color(0xFF252525),
-              fontSize: 24,
-              fontFamily: 'Poppins',
-              fontWeight: FontWeight.bold,
+            const SizedBox(height: 20),
+            Text(
+              title,
+              style: const TextStyle(
+                color: Color(0xFF252525),
+                fontSize: 24,
+                fontFamily: 'Poppins',
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
-          const SizedBox(height: 10),
-          Text(
-            description,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              color: Color(0xFF252525),
-              fontSize: 16,
-              fontFamily: 'Poppins',
-              height: 1.5,
+            const SizedBox(height: 10),
+            Text(
+              description,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: Color(0xFF252525),
+                fontSize: 16,
+                fontFamily: 'Poppins',
+                height: 1.5,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
