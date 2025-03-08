@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-class LandingPageFinal extends StatelessWidget {
+class LandingPageFinal extends StatelessWidget 
+{
   const LandingPageFinal({Key? key}) : super(key: key);
 
   @override
