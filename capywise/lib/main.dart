@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'core/base_page.dart';
 import 'views/auth/landing_screen.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
