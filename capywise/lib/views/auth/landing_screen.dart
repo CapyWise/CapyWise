@@ -5,7 +5,8 @@ class LandingPageFinal extends StatelessWidget
   const LandingPageFinal({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) 
+  {
     return Container(
       color: const Color(0xFFE8D9D6), // Set background color here
       child: SingleChildScrollView(
@@ -207,7 +208,8 @@ class FeatureCard extends StatelessWidget
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) 
+  {
     return GestureDetector(
       onTap: () 
       {
