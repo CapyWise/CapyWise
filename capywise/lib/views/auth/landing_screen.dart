@@ -189,7 +189,8 @@ class LandingPageFinal extends StatelessWidget {
   }
 }
 
-class FeatureCard extends StatelessWidget {
+class FeatureCard extends StatelessWidget 
+{
   final String title;
   final String description;
   final String imagePath;
