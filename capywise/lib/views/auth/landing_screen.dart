@@ -13,40 +13,94 @@ class LandingPageFinal extends StatelessWidget {
             // Top Padding
             const SizedBox(height: 40),
 
-            // Login Button
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF271908),
-                padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 24),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(40),
-                ),
-              ),
-              onPressed: () {
-                print("Login button pressed");
-              },
-              child: const Text(
-                'Login',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 22,
-                  fontFamily: 'Poppins',
-                ),
-              ),
-            ),
-            const SizedBox(height: 20),
-
             // Image
-            Container(
-              width: 200,
-              height: 200,
-              decoration: BoxDecoration(
-                image: const DecorationImage(
-                  image: AssetImage("../assets/images/capybara.png"),
-                  fit: BoxFit.cover,
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                Container(
+                  width: 524,
+                  height: 490,
+                  decoration: BoxDecoration(
+                    image: const DecorationImage(
+                      image: AssetImage("../assets/images/backsplash.webp"),
+                      fit: BoxFit.cover,
+                    ),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
                 ),
-                borderRadius: BorderRadius.circular(20),
-              ),
+
+                Positioned(
+                  top: 0,
+                  child: 
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        // Get Started Button
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.white,
+                            padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 24),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(40),
+                            ),
+                          ),
+                          onPressed: () {
+                            print("Get Started button pressed");
+                          },
+                          child: const Text(
+                            'Get Started',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 22,
+                              fontFamily: 'Poppins',
+                            ),
+                          ),
+                        ),
+
+                        const SizedBox(width: 16),
+                        
+                        // Login Button
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFF271908),
+                            padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 24),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(40),
+                            ),
+                          ),
+                          onPressed: () {
+                            print("Login button pressed");
+                          },
+                          child: const Text(
+                            'Login',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 22,
+                              fontFamily: 'Poppins',
+                            ),
+                          ),
+                        ),
+                    ]
+                  ),
+                ),
+                const SizedBox(height: 20),
+
+                Positioned(
+                  bottom: 16,
+                  child:
+                    Container(
+                      width: 320,
+                      height: 320,
+                      decoration: BoxDecoration(
+                        image: const DecorationImage(
+                          image: AssetImage("../assets/images/capybara.png"),
+                          fit: BoxFit.cover,
+                        ),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ), 
+                  ),
+              ],
             ),
             const SizedBox(height: 20),
 
@@ -73,29 +127,6 @@ class LandingPageFinal extends StatelessWidget {
                   fontSize: 18,
                   fontFamily: 'Poppins',
                   height: 2,
-                ),
-              ),
-            ),
-            const SizedBox(height: 40),
-
-            // Get Started Button
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 24),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(40),
-                ),
-              ),
-              onPressed: () {
-                print("Get Started button pressed");
-              },
-              child: const Text(
-                'Get Started',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 22,
-                  fontFamily: 'Poppins',
                 ),
               ),
             ),
