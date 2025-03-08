@@ -24,6 +24,21 @@ class MyApp extends StatelessWidget {
         splashColor: Colors.transparent, // No splash effect
         highlightColor: Colors.transparent, // No highlight effect
       ),
+      /*
+      home: BasePage(
+        title: "Dashboard",
+        middleContent: Container(
+          color: Colors.white,
+          child: const Center(
+            child: Text("Main Content"),
+          ),
+        ),
+        rightSidebar: Container(
+          color: Colors.white,
+          child: const Center(
+            child: Text("Sidebar Content"),
+          ),
+      */
       home: const LandingPageFinal(),
     );
   }
