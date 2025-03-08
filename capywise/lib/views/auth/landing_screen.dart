@@ -197,7 +197,8 @@ class FeatureCard extends StatelessWidget
   final String imagePath;
   final Color color;
 
-  const FeatureCard({
+  const FeatureCard(
+  {
     required this.title,
     required this.description,
     required this.imagePath,
