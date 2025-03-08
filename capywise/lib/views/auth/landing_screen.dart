@@ -13,123 +13,145 @@ class LandingPageFinal extends StatelessWidget {
             // Top Padding
             const SizedBox(height: 40),
 
-            // Image
-            Stack(
-              alignment: Alignment.center,
+            // Button Row
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                  width: 524,
-                  height: 490,
-                  decoration: BoxDecoration(
-                    image: const DecorationImage(
-                      image: AssetImage("../assets/images/backsplash.webp"),
-                      fit: BoxFit.cover,
+                // Get Started Button
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 24),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(40),
                     ),
-                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  onPressed: () {
+                    print("Get Started button pressed");
+                  },
+                  child: const Text(
+                    'Get Started',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 22,
+                      fontFamily: 'Poppins',
+                    ),
                   ),
                 ),
 
-                Positioned(
-                  top: 0,
-                  child: 
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        // Get Started Button
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.white,
-                            padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 24),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(40),
-                            ),
-                          ),
-                          onPressed: () {
-                            print("Get Started button pressed");
-                          },
-                          child: const Text(
-                            'Get Started',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 22,
-                              fontFamily: 'Poppins',
-                            ),
-                          ),
-                        ),
+                const SizedBox(width: 16),
 
-                        const SizedBox(width: 16),
-                        
-                        // Login Button
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFF271908),
-                            padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 24),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(40),
-                            ),
-                          ),
-                          onPressed: () {
-                            print("Login button pressed");
-                          },
-                          child: const Text(
-                            'Login',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 22,
-                              fontFamily: 'Poppins',
-                            ),
-                          ),
-                        ),
-                    ]
+                // Login Button
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF271908),
+                    padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 24),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(40),
+                    ),
+                  ),
+                  onPressed: () {
+                    print("Login button pressed");
+                  },
+                  child: const Text(
+                    'Login',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 22,
+                      fontFamily: 'Poppins',
+                    ),
                   ),
                 ),
-                const SizedBox(height: 20),
-
-                Positioned(
-                  bottom: 16,
-                  child:
-                    Container(
-                      width: 320,
-                      height: 320,
-                      decoration: BoxDecoration(
-                        image: const DecorationImage(
-                          image: AssetImage("../assets/images/capybara.png"),
-                          fit: BoxFit.cover,
-                        ),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                    ), 
-                  ),
               ],
             ),
-            const SizedBox(height: 20),
 
-            // Title
-            const Text(
-              'CapyWise',
-              style: TextStyle(
-                color: Color(0xFF271908),
-                fontSize: 64,
-                fontFamily: 'Poppins',
-                fontWeight: FontWeight.bold,
+            const SizedBox(height: 40),
+
+            // Image & Text Row
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 64),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  // Move Stack slightly to the right
+                  const SizedBox(width: 50),
+
+                  // Stack for Backsplash and Capybara Image
+                  Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Container(
+                        width: 524,
+                        height: 490,
+                        decoration: BoxDecoration(
+                          image: const DecorationImage(
+                            image: AssetImage("../assets/images/backsplash.webp"),
+                            fit: BoxFit.cover,
+                          ),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                      Positioned(
+                        bottom: 16,
+                        child: Container(
+                          width: 320,
+                          height: 320,
+                          decoration: BoxDecoration(
+                            image: const DecorationImage(
+                              image: AssetImage("../assets/images/capybara.png"),
+                              fit: BoxFit.cover,
+                            ),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(width: 56), // Space between image and text
+
+                  // Column with Centered Title & Description
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        // Title
+                        const Text(
+                          'CapyWise',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Color(0xFF271908),
+                            fontSize: 64,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+
+                        const SizedBox(height: 24),
+
+                        // Description Text (Now Centered)
+                        const Text(
+                          'We are CapyWise, a team of passionate students dedicated to simplifying academic scheduling. Our goal is to help students stay organized and stress-free with an all-in-one calendar solution!',
+                          textAlign: TextAlign.center, // Ensures center alignment
+                          softWrap: true,
+                          overflow: TextOverflow.visible,
+                          style: TextStyle(
+                            color: Color(0xFF252525),
+                            fontSize: 18,
+                            fontFamily: 'Poppins',
+                            height: 2, // Adjust spacing for readability
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 56),
+                ],
               ),
             ),
-            const SizedBox(height: 20),
 
-            // Description
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 320),
-              child: Text(
-                'We are CapyWise, a team of passionate students dedicated to simplifying academic scheduling. Our goal is to help students stay organized and stress-free with an all-in-one calendar solution!',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Color(0xFF252525),
-                  fontSize: 18,
-                  fontFamily: 'Poppins',
-                  height: 2,
-                ),
-              ),
-            ),
             const SizedBox(height: 40),
 
             // Features Section
