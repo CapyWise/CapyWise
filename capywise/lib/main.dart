@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget
       theme: ThemeData(
         fontFamily: 'Poppins', // Apply Poppins font globally
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        scaffoldBackgroundColor: Color(0xFFF4D7DA), // Muted pink background
+        scaffoldBackgroundColor: const Color(0xFFF4D7DA), // Muted pink background
         useMaterial3: true,
         // Disable default hover effects
         hoverColor: Colors.transparent, // No hover color
