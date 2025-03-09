@@ -3,6 +3,7 @@ import 'core/base_page.dart';
 import 'views/auth/landing_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'widgets/new_event_widget.dart';
 
 void main() async 
 {
@@ -49,7 +50,8 @@ class MyApp extends StatelessWidget
           ),
         showRightSidebar: true,
       */
-      home: const LandingPageFinal(),
+      //home: const LandingPageFinal(),
+      home: EventFormWidget(),
     );
   }
 }
