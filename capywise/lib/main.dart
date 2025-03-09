@@ -3,7 +3,7 @@ import 'core/base_page.dart';
 import 'views/auth/landing_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
-import 'widgets/new_event_widget.dart';
+import 'widgets/event_form_widget.dart';
 
 void main() async 
 {
