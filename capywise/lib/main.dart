@@ -40,6 +40,7 @@ class MyApp extends StatelessWidget
         splashColor: Colors.transparent, // No splash effect
         highlightColor: Colors.transparent, // No highlight effect
       ),
+<<<<<<< HEAD
 
 /*
       home: BasePage(
@@ -113,6 +114,26 @@ class MyApp extends StatelessWidget
       //home: const LandingPageFinal(),
       home: const CalendarWidget(),
 >>>>>>> 96afae8 (JSH-171 adding weekly calendar view widget)
+=======
+      home: BasePage(
+         title: "Dashboard",
+         middleContent: Container(
+           color: Colors.white,
+           child: const Center(
+             child: Text("Main Content"),
+           ),
+         ),
+         rightSidebar: Container(
+           color: Colors.white,
+           child: const Center(
+             child: Text("Sidebar Content"),
+           ),
+         ),
+         showRightSidebar: true,
+       ),
+      //home: const LandingPageFinal(),
+      //home: const CalendarWidget(),
+>>>>>>> 2baf4d5 (comments)
     );
   }
 }
