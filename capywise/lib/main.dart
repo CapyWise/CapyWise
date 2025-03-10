@@ -4,7 +4,11 @@ import 'core/base_page.dart';
 import 'views/auth/landing_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+<<<<<<< HEAD
 import 'views/settings/settings_screen.dart';
+=======
+import 'widgets/calendar_widget.dart';
+>>>>>>> 96afae8 (JSH-171 adding weekly calendar view widget)
 
 void main() async
 {
@@ -102,8 +106,13 @@ class MyApp extends StatelessWidget
         ],
       ),
       */
+<<<<<<< HEAD
       home: const LandingPageFinal(),
       //home: const SettingsScreen(),
+=======
+      //home: const LandingPageFinal(),
+      home: const CalendarWidget(),
+>>>>>>> 96afae8 (JSH-171 adding weekly calendar view widget)
     );
   }
 }
