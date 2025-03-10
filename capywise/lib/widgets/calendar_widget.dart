@@ -13,6 +13,7 @@ class CalendarWidget extends StatefulWidget {
 class CalendarWidgetState extends State<CalendarWidget> {
   CalendarView _calendarView = CalendarView.week; // Default view
   List<Appointment> _appointments = [];
+  Key _calendarKey = UniqueKey(); // Ensures a full rebuild when switching views
 
   @override
   void initState() {
@@ -46,10 +47,123 @@ class CalendarWidgetState extends State<CalendarWidget> {
     });
   }
 
-  // Add a new event
-  void _addEvent() {
-    // Show a form for adding an event (implement this in your app)
-    print("Add Event Clicked");
+  // Handle View Switching
+  void _toggleCalendarView(int index) {
+    setState(() {
+      _calendarView = index == 0 ? CalendarView.month : CalendarView.week;
+      _calendarKey = UniqueKey(); // Forces the calendar to fully rebuild
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.grey[100], // Match Figma background color
+      padding: EdgeInsets.all(16),
+      child: Column(
+        children: [
+          // Month/Week Toggle Button aligned to the end
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              ToggleButtons(
+                borderRadius: BorderRadius.circular(8),
+                selectedColor: Colors.white,
+                fillColor: Colors.blue,
+                color: Colors.black,
+                isSelected: [
+                  _calendarView == CalendarView.month,
+                  _calendarView == CalendarView.week
+                ],
+                onPressed: _toggleCalendarView,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                    child: Text("Month"),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                    child: Text("Week"),
+                  ),
+                ],
+              ),
+            ],
+          ),
+
+          SizedBox(height: 10), // Space between toggle and toolbar
+
+          // Toolbar for action buttons
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(8),
+              boxShadow: [
+                BoxShadow(color: Colors.black12, blurRadius: 4, offset: Offset(0, 2))
+              ],
+            ),
+            padding: EdgeInsets.symmetric(horizontal: 12),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                IconButton(
+                  icon: Icon(Icons.import_export, color: Colors.black54),
+                  onPressed: _importEvents,
+                ),
+                _buildDivider(),
+                IconButton(
+                  icon: Icon(Icons.file_upload, color: Colors.black54),
+                  onPressed: _exportEvents,
+                ),
+                _buildDivider(),
+                IconButton(
+                  icon: Icon(Icons.add, color: Colors.blue),
+                  onPressed: _addEvent,
+                ),
+              ],
+            ),
+          ),
+
+          SizedBox(height: 10), // Space between toolbar and calendar
+
+          // Main Calendar View with Dynamic Header
+          Expanded(
+            child: SfCalendar(
+              key: _calendarKey, // Ensures a full rebuild on toggle
+              view: _calendarView,
+              dataSource: _getCalendarDataSource(),
+              todayHighlightColor: Colors.blue,
+              headerStyle: CalendarHeaderStyle(
+                textAlign: TextAlign.center, // Centers the dynamic month label
+                textStyle: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black87,
+                ),
+              ),
+              selectionDecoration: BoxDecoration(
+                color: Color.fromARGB(50, 50, 100, 255), 
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: Colors.blue, width: 2),
+              ),
+              monthViewSettings: MonthViewSettings(
+                showAgenda: true, // Ensures events appear in Month View
+                appointmentDisplayMode: MonthAppointmentDisplayMode.indicator,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Helper method to create a grey divider
+  Widget _buildDivider() {
+    return Container(
+      width: 1,
+      height: 24, // Match icon button height
+      color: Colors.grey[400], // Light grey color
+      margin: EdgeInsets.symmetric(horizontal: 8), // Space between icons
+    );
   }
 
   // Export calendar data
@@ -62,92 +176,18 @@ class CalendarWidgetState extends State<CalendarWidget> {
     print("Importing Events...");
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        // Header with Buttons
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
-                TextButton(
-                  onPressed: () {
-                    setState(() {
-                      _calendarView = CalendarView.month;
-                    });
-                  },
-                  child: Text(
-                    "Month",
-                    style: TextStyle(
-                      color: _calendarView == CalendarView.month
-                          ? Colors.blue
-                          : Colors.black,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                TextButton(
-                  onPressed: () {
-                    setState(() {
-                      _calendarView = CalendarView.week;
-                    });
-                  },
-                  child: Text(
-                    "Week",
-                    style: TextStyle(
-                      color: _calendarView == CalendarView.week
-                          ? Colors.blue
-                          : Colors.black,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                IconButton(
-                  icon: Icon(Icons.import_export),
-                  onPressed: _importEvents,
-                ),
-                IconButton(
-                  icon: Icon(Icons.file_upload),
-                  onPressed: _exportEvents,
-                ),
-                IconButton(
-                  icon: Icon(Icons.add),
-                  onPressed: _addEvent,
-                ),
-              ],
-            ),
-          ],
-        ),
-        Expanded(
-          child: SfCalendar(
-            view: _calendarView,
-            dataSource: _getCalendarDataSource(),
-            onTap: widget.onEventTap, // Handle event tap
-            todayHighlightColor: Colors.blue,
-            selectionDecoration: BoxDecoration(
-              color: Colors.blue.withAlpha(50),
-                borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: Colors.blue, width: 2),
-            ),
-          ),
-        ),
-      ],
-    );
+  // Add a new event
+  void _addEvent() {
+    print("Add Event Clicked");
   }
 
-  // Data source for the calendar
+  // Get the calendar data source
   _CalendarDataSource _getCalendarDataSource() {
     return _CalendarDataSource(_appointments);
   }
 }
 
-// Custom data source class
+// Custom data source for events
 class _CalendarDataSource extends CalendarDataSource {
   _CalendarDataSource(List<Appointment> source) {
     appointments = source;
