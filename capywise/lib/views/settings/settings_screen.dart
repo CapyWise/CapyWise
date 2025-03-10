@@ -92,7 +92,10 @@ class _SettingsContentWidgetState extends State<SettingsContentWidget> {
                             Container(
                               width: 50,
                               height: 50,
-                              color: Colors.grey[300],
+                              decoration: BoxDecoration(
+                                color: Colors.grey[300],
+                                borderRadius: BorderRadius.circular(12),
+                              ),
                               child: const Icon(Icons.image, color: Colors.red),
                             ),
                             const SizedBox(width: 10),
