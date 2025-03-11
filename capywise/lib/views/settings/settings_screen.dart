@@ -25,6 +25,7 @@ class SettingsContentWidget extends StatefulWidget {
 class _SettingsContentWidgetState extends State<SettingsContentWidget> {
   bool pushNotifications = false;
   bool emailNotifications = false;
+  String selectedSection = "General";
 
   @override
   Widget build(BuildContext context) {
@@ -35,29 +36,52 @@ class _SettingsContentWidgetState extends State<SettingsContentWidget> {
           padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 20),
           child: Row(
             children: [
-              Container(
-                padding: const EdgeInsets.only(left: 20),
-                child: const Text(
-                  "General",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'Poppins',
-                    color: Colors.red,
-                    decoration: TextDecoration.underline,
-                    decorationColor: Colors.red,
-                    decorationThickness: 2,
+              MouseRegion(
+                cursor: SystemMouseCursors.click,
+                child: GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      selectedSection = "General";
+                    });
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.only(left: 20),
+                    child: Text(
+                      "General",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: selectedSection == "General" ? FontWeight.bold : FontWeight.normal,
+                        fontFamily: 'Poppins',
+                        color: selectedSection == "General" ? Colors.red : Colors.black,
+                        decoration: TextDecoration.underline,
+                        decorationColor: selectedSection == "General" ? Colors.red : Colors.transparent,
+                        decorationThickness: 2,
+                      ),
+                    ),
                   ),
                 ),
               ),
               const SizedBox(width: 12),
-              const Text(
-                "Appearances",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontFamily: 'Poppins',
-                  decoration: TextDecoration.underline,
-                  decorationThickness: 2,
+              MouseRegion(
+                cursor: SystemMouseCursors.click,
+                child: GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      selectedSection = "Appearances";
+                    });
+                  },
+                  child: Text(
+                    "Appearances",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: selectedSection == "Appearances" ? FontWeight.bold : FontWeight.normal,
+                      fontFamily: 'Poppins',
+                      color: selectedSection == "Appearances" ? Colors.red : Colors.black,
+                      decoration: TextDecoration.underline,
+                      decorationColor: selectedSection == "Appearances" ? Colors.red : Colors.transparent,
+                      decorationThickness: 2,
+                    ),
+                  ),
                 ),
               ),
             ],
@@ -83,47 +107,72 @@ class _SettingsContentWidgetState extends State<SettingsContentWidget> {
                         ),
                       ],
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text("Profile Picture", style: TextStyle(fontWeight: FontWeight.bold)),
-                        const SizedBox(height: 8),
-                        Row(
-                          children: [
-                            Container(
-                              width: 50,
-                              height: 50,
-                              decoration: BoxDecoration(
-                                color: Colors.grey[300],
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: const Icon(Icons.image, color: Colors.red),
-                            ),
-                            const SizedBox(width: 10),
-                            const Text("Upload Image", style: TextStyle(color: Colors.red)),
-                          ],
-                        ),
-                        const SizedBox(height: 20),
-                        _buildTextField("Name", "Account Name Info"),
-                        _buildTextField("Email Address", "accountemail@email.com"),
-                        _buildTextField("Phone Number", "1234567890"),
-                        _buildSwitch("Push Notifications", pushNotifications, (value) {
-                          setState(() {
-                            pushNotifications = value;
-                          });
-                        }),
-                        _buildSwitch("Email Notifications", emailNotifications, (value) {
-                          setState(() {
-                            emailNotifications = value;
-                          });
-                        }),
-                      ],
-                    ),
+                    child: selectedSection == "General" ? _buildGeneralSettings() : _buildAppearanceSettings(),
                   ),
                 ),
               ],
             ),
           ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildGeneralSettings() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text("Profile Picture", style: TextStyle(fontWeight: FontWeight.bold)),
+        const SizedBox(height: 8),
+        Row(
+          children: [
+            Container(
+              width: 50,
+              height: 50,
+              decoration: BoxDecoration(
+                color: Colors.grey[300],
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: const Icon(Icons.image, color: Colors.red),
+            ),
+            const SizedBox(width: 10),
+            const Text("Upload Image", style: TextStyle(color: Colors.red)),
+          ],
+        ),
+        const SizedBox(height: 20),
+        _buildTextField("Name", "Account Name Info"),
+        _buildTextField("Email Address", "accountemail@email.com"),
+        _buildTextField("Phone Number", "1234567890"),
+        _buildSwitch("Push Notifications", pushNotifications, (value) {
+          setState(() {
+            pushNotifications = value;
+          });
+        }),
+        _buildSwitch("Email Notifications", emailNotifications, (value) {
+          setState(() {
+            emailNotifications = value;
+          });
+        }),
+      ],
+    );
+  }
+
+  Widget _buildAppearanceSettings() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text("Theme Settings", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+        const SizedBox(height: 10),
+        Row(
+          children: [
+            const Text("Dark Mode"),
+            const Spacer(),
+            _buildSwitch("Email Notifications", emailNotifications, (value) {
+              setState(() {
+                emailNotifications = value;
+              });
+            }),
+          ],
         ),
       ],
     );
