@@ -10,6 +10,7 @@ class SettingsScreen extends StatelessWidget {
     return BasePage(
       title: "Settings",
       middleContent: const SettingsContentWidget(), // This will be the main settings content
+      showRightSidebar: false,
     );
   }
 }
