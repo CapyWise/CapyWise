@@ -46,18 +46,7 @@ class _SettingsContentWidgetState extends State<SettingsContentWidget> {
                   },
                   child: Container(
                     padding: const EdgeInsets.only(left: 20),
-                    child: Text(
-                      "General",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: selectedSection == "General" ? FontWeight.bold : FontWeight.normal,
-                        fontFamily: 'Poppins',
-                        color: selectedSection == "General" ? Colors.red : Colors.black,
-                        decoration: TextDecoration.underline,
-                        decorationColor: selectedSection == "General" ? Colors.red : Colors.transparent,
-                        decorationThickness: 2,
-                      ),
-                    ),
+                    child: _buildSectionText("General"),
                   ),
                 ),
               ),
@@ -70,18 +59,7 @@ class _SettingsContentWidgetState extends State<SettingsContentWidget> {
                       selectedSection = "Appearances";
                     });
                   },
-                  child: Text(
-                    "Appearances",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: selectedSection == "Appearances" ? FontWeight.bold : FontWeight.normal,
-                      fontFamily: 'Poppins',
-                      color: selectedSection == "Appearances" ? Colors.red : Colors.black,
-                      decoration: TextDecoration.underline,
-                      decorationColor: selectedSection == "Appearances" ? Colors.red : Colors.transparent,
-                      decorationThickness: 2,
-                    ),
-                  ),
+                  child: _buildSectionText("Appearances"),
                 ),
               ),
             ],
@@ -107,7 +85,7 @@ class _SettingsContentWidgetState extends State<SettingsContentWidget> {
                         ),
                       ],
                     ),
-                    child: selectedSection == "General" ? _buildGeneralSettings() : _buildAppearanceSettings(),
+                    child: _buildSettingsContent(),
                   ),
                 ),
               ],
@@ -118,11 +96,68 @@ class _SettingsContentWidgetState extends State<SettingsContentWidget> {
     );
   }
 
+  // Builds the section text with the proper styling.
+  Widget _buildSectionText(String section) {
+    bool isSelected = selectedSection == section;
+    TextStyle sectionTextStyle = _buildSectionTextStyle(isSelected);
+    
+    return Text(
+      section,
+      style: sectionTextStyle,
+    );
+  }
+
+  // Helper method to define text style based on whether the section is selected or not.
+  TextStyle _buildSectionTextStyle(bool isSelected) {
+    FontWeight fontWeight;
+    Color color;
+    double decorationThickness;
+    Color decorationColor;
+    TextDecoration decoration;
+
+    if (isSelected) {
+      fontWeight = FontWeight.bold;
+      color = Colors.red;
+      decorationColor = Colors.red;
+      decorationThickness = 2.0;
+      decoration = TextDecoration.underline;
+    } else {
+      fontWeight = FontWeight.normal;
+      color = Colors.black;
+      decorationColor = Colors.black;
+      decorationThickness = 0.0;
+      decoration = TextDecoration.none;
+    }
+
+    return TextStyle(
+      fontSize: 20,
+      fontWeight: fontWeight,
+      fontFamily: 'Poppins',
+      color: color,
+      decorationColor: decorationColor,
+      decorationThickness: decorationThickness,
+      decoration: decoration,
+      
+    );
+  }
+
+  //Displays content based off of tab selection, default is 'General'
+  Widget _buildSettingsContent() {
+    if (selectedSection == "General") {
+      return _buildGeneralSettings();
+    } else if (selectedSection == "Appearances") {
+      return _buildAppearanceSettings();
+    } else {
+      return const SizedBox(); // Default case, in case of an unknown section
+    }
+  }
+
+  //General Tab info
   Widget _buildGeneralSettings() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text("Profile Picture", style: TextStyle(fontWeight: FontWeight.bold)),
+        const Text("Profile Picture", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
         const SizedBox(height: 8),
         Row(
           children: [
@@ -157,40 +192,32 @@ class _SettingsContentWidgetState extends State<SettingsContentWidget> {
     );
   }
 
+//Informaion on Appearance tab
   Widget _buildAppearanceSettings() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text("Theme Settings", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+        const Text("Theme Settings", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
         const SizedBox(height: 10),
-        Row(
-          children: [
-            const Text("Dark Mode"),
-            const Spacer(),
-            _buildSwitch("Email Notifications", emailNotifications, (value) {
-              setState(() {
-                emailNotifications = value;
-              });
-            }),
-          ],
-        ),
       ],
     );
   }
 
+  //Switch widget
   Widget _buildSwitch(String label, bool value, Function(bool) onChanged) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: const TextStyle(fontWeight: FontWeight.bold)),
+          Text(label, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
           Switch(value: value, onChanged: onChanged),
         ],
       ),
     );
   }
 
+  //TextBox widget
   Widget _buildTextField(String label, String placeholder) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
@@ -199,7 +226,7 @@ class _SettingsContentWidgetState extends State<SettingsContentWidget> {
         children: [
           Text(
             label,
-            style: const TextStyle(fontWeight: FontWeight.bold),
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
           ),
           const SizedBox(height: 5),
           TextField(
