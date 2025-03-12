@@ -1,8 +1,11 @@
+import 'package:capywise/views/base_page.dart';
 import 'package:flutter/material.dart';
 import 'core/base_page.dart';
 import 'views/auth/landing_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'views/settings/settings_screen.dart';
+
 
 void main() async 
 {
@@ -33,6 +36,9 @@ class MyApp extends StatelessWidget
         splashColor: Colors.transparent, // No splash effect
         highlightColor: Colors.transparent, // No highlight effect
       ),
+
+
+
       /*
       home: BasePage(
         title: "Dashboard",
@@ -50,6 +56,9 @@ class MyApp extends StatelessWidget
         showRightSidebar: true,
       */
       home: const LandingPageFinal(),
+      // home: const SettingsScreen(),
+
+
     );
   }
 }
