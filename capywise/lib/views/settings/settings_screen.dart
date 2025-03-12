@@ -155,7 +155,8 @@ class _SettingsContentWidgetState extends State<SettingsContentWidget>
   }
 
   //Displays content based off of tab selection, default is 'General'
-  Widget _buildSettingsContent() {
+  Widget _buildSettingsContent() 
+  {
     if (selectedSection == "General") 
     {
       return _buildGeneralSettings();
