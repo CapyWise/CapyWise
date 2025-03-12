@@ -228,8 +228,9 @@ class _SettingsContentWidgetState extends State<SettingsContentWidget>
     );
   }
 
-  //TextBox widget
-  Widget _buildTextField(String label, String placeholder) {
+  // TextBox widget
+  Widget _buildTextField(String label, String placeholder) 
+  {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Column(
