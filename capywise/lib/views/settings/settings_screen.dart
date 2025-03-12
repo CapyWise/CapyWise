@@ -182,13 +182,17 @@ class _SettingsContentWidgetState extends State<SettingsContentWidget>
         _buildTextField("Name", "Account Name Info"),
         _buildTextField("Email Address", "accountemail@email.com"),
         _buildTextField("Phone Number", "1234567890"),
-        _buildSwitch("Push Notifications", pushNotifications, (value) {
-          setState(() {
+        _buildSwitch("Push Notifications", pushNotifications, (value) 
+        {
+          setState(() 
+          {
             pushNotifications = value;
           });
         }),
-        _buildSwitch("Email Notifications", emailNotifications, (value) {
-          setState(() {
+        _buildSwitch("Email Notifications", emailNotifications, (value) 
+        {
+          setState(() 
+          {
             emailNotifications = value;
           });
         }),
