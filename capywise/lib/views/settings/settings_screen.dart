@@ -43,7 +43,8 @@ class _SettingsContentWidgetState extends State<SettingsContentWidget>
               MouseRegion(
                 cursor: SystemMouseCursors.click,
                 child: GestureDetector(
-                  onTap: () {
+                  onTap: () 
+                  {
                     setState(() {
                       selectedSection = "General";
                     });
