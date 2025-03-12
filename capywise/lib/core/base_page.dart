@@ -1,46 +1,97 @@
 import 'package:flutter/material.dart';
 import '../widgets/sidebar_widget.dart';
 
-/// A base layout class with a sidebar and top area.
-/// Child classes (e.g., Dashboard) override [buildMainArea] to show their own content.
+/// A reusable base layout for all pages in the app.
+///
+/// This layout consists of:
+/// - A **left sidebar** for navigation.
+/// - A **header** with a title, dropdown, and action buttons.
+/// - A **main content area** in the center.
+/// - An **optional right sidebar** for additional widgets.
+///
+/// ### Example Usage:
+/// ```dart
+/// // A page with both middle content and a right sidebar:
+/// BasePage(
+///   title: "Dashboard",
+///   middleContent: DashboardContent(),
+///   rightSidebar: NotificationsWidget(),
+///   showRightSidebar: true, // Set to false to hide the sidebar
+/// );
+///
+/// // A page that only needs the middle content:
+/// BasePage(
+///   title: "Exam Scheduler",
+///   middleContent: ExamSchedulerContent(),
+///   showRightSidebar: false, // Hide the sidebar entirely
+/// );
+/// ```
 class BasePage extends StatelessWidget {
-  const BasePage({Key? key}) : super(key: key);
+  /// The title displayed in the header.
+  final String title;
+
+  /// The main content displayed in the center of the page.
+  final Widget middleContent;
+
+  /// Optional widget for the right sidebar (e.g., notifications, filters).
+  final Widget? rightSidebar;
+
+  /// Whether to display the right sidebar.
+  final bool showRightSidebar;
+
+  /// Constructs a [BasePage] with:
+  ///  - [title]: page title in the header
+  ///  - [middleContent]: main widget in the center
+  ///  - [rightSidebar]: optional widget on the right
+  ///  - [showRightSidebar]: whether to show or hide the right sidebar
+  const BasePage({
+    super.key,
+    required this.title,
+    required this.middleContent,
+    this.rightSidebar,
+    this.showRightSidebar = true,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // Light pink background
       backgroundColor: const Color.fromARGB(255, 250, 232, 232),
       body: Row(
         children: [
-          // LEFT SIDEBAR
+          /// --- Left Sidebar ---
+          /// Always displayed for navigation.
           const SidebarWidget(),
 
-          // MAIN COLUMN (Top bar + center content)
+          /// --- Main Content Area ---
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // TOP BAR
+                /// --- Header Section ---
+                /// Displays a title, dropdown, and action buttons.
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-                  color: const Color(0xFFFCE8E8),
+                  color: const Color(0xFFFCE8E8), // Light pink header background
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Example Title + Dropdown
+                      /// **Title & Dropdown**
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
-                            "Title",
-                            style: TextStyle(
+                          Text(
+                            title,
+                            style: const TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                               fontFamily: 'Poppins',
                             ),
                           ),
                           const SizedBox(height: 5),
+
+                          /// **Example Dropdown Menu**
                           DropdownButton<String>(
                             items: const [
                               DropdownMenuItem(
@@ -53,7 +104,7 @@ class BasePage extends StatelessWidget {
                               ),
                             ],
                             onChanged: (String? newValue) {
-                              // Handle dropdown selection
+                              // TODO: Handle dropdown selection
                             },
                             hint: const Text(
                               "Choose something",
@@ -63,11 +114,13 @@ class BasePage extends StatelessWidget {
                         ],
                       ),
 
-                      // Example Buttons
+                      /// **Action Buttons**
                       Row(
                         children: [
                           ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              // TODO: Define primary action
+                            },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color.fromARGB(255, 43, 10, 48),
                               foregroundColor: Colors.white,
@@ -76,7 +129,9 @@ class BasePage extends StatelessWidget {
                           ),
                           const SizedBox(width: 10),
                           OutlinedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              // TODO: Define secondary action
+                            },
                             child: const Text("Default"),
                           ),
                         ],
@@ -85,23 +140,37 @@ class BasePage extends StatelessWidget {
                   ),
                 ),
 
-                // MAIN AREA (child classes override here)
+                /// --- Main + Optional Right Sidebar ---
                 Expanded(
-                  child: buildMainArea(context),
+                  child: Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Row(
+                      children: [
+                        /// **Middle Content**
+                        /// Takes up most of the horizontal space (3x).
+                        Expanded(
+                          flex: 3,
+                          child: middleContent,
+                        ),
+
+                        /// **Right Sidebar**
+                        /// Shown only if [showRightSidebar] is true AND [rightSidebar] is not null.
+                        if (showRightSidebar && rightSidebar != null) ...[
+                          const SizedBox(width: 20),
+                          Expanded(
+                            flex: 1,
+                            child: rightSidebar!,
+                          ),
+                        ],
+                      ],
+                    ),
+                  ),
                 ),
               ],
             ),
           ),
         ],
       ),
-    );
-  }
-
-  /// Override this method in child classes to display your custom content.
-  @protected
-  Widget buildMainArea(BuildContext context) {
-    return const Center(
-      child: Text("BasePage: No content here yet!"),
     );
   }
 }
