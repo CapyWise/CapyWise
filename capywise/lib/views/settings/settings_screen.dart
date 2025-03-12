@@ -125,7 +125,8 @@ class _SettingsContentWidgetState extends State<SettingsContentWidget>
     Color decorationColor;
     TextDecoration decoration;
 
-    if (isSelected) {
+    if (isSelected) 
+    {
       fontWeight = FontWeight.bold;
       color = Colors.red;
       decorationColor = Colors.red;
