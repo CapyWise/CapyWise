@@ -74,6 +74,8 @@ class BasePage extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
                   color: const Color(0xFFFCE8E8), // Light pink header background
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                  color: const Color(0xFFFCE8E8), // Light pink header background
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -83,7 +85,10 @@ class BasePage extends StatelessWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                        children: [
                           Text(
+                            title,
+                            style: const TextStyle(
                             title,
                             style: const TextStyle(
                               fontSize: 20,
@@ -97,12 +102,15 @@ class BasePage extends StatelessWidget {
                           /// You can customize this dropdown or replace it with another widget.
                           DropdownButton<String>(
                             items: const [
+                            items: const [
                               DropdownMenuItem(
                                 value: "Option 1",
+                                child: Text("Option 1"),
                                 child: Text("Option 1"),
                               ),
                               DropdownMenuItem(
                                 value: "Option 2",
+                                child: Text("Option 2"),
                                 child: Text("Option 2"),
                               ),
                             ],
@@ -110,7 +118,9 @@ class BasePage extends StatelessWidget {
                               // Handle dropdown selection (Add logic here)
                             },
                             hint: const Text(
+                            hint: const Text(
                               "Choose something",
+                              style: TextStyle(fontFamily: 'Poppins'),
                               style: TextStyle(fontFamily: 'Poppins'),
                             ),
                           ),
@@ -121,16 +131,19 @@ class BasePage extends StatelessWidget {
                       /// Customize these buttons based on page-specific actions.
                       Row(
                         children: [
+                        children: [
                           ElevatedButton(
                             onPressed: () {
-                              // Define primary action here
+                              // TODO: Define primary action
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color.fromARGB(255, 43, 10, 48),
                               foregroundColor: Colors.white,
                             ),
                             child: const Text("Primary Action"),
+                            child: const Text("Primary Action"),
                           ),
+                          const SizedBox(width: 10),
                           const SizedBox(width: 10),
                           OutlinedButton(
                             onPressed: () {
@@ -148,6 +161,7 @@ class BasePage extends StatelessWidget {
                 /// Contains the middle content and an optional right sidebar.
                 Expanded(
                   child: Padding(
+                    padding: const EdgeInsets.all(20),
                     padding: const EdgeInsets.all(20),
                     child: Row(
                       children: [
