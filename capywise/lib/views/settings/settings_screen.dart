@@ -24,7 +24,8 @@ class SettingsContentWidget extends StatefulWidget
   _SettingsContentWidgetState createState() => _SettingsContentWidgetState();
 }
 
-class _SettingsContentWidgetState extends State<SettingsContentWidget> {
+class _SettingsContentWidgetState extends State<SettingsContentWidget> 
+{
   bool pushNotifications = false;
   bool emailNotifications = false;
   String selectedSection = "General";
