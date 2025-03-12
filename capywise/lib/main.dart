@@ -39,7 +39,24 @@ class MyApp extends StatelessWidget
 
 
 
-      home: const SettingsScreen(),
+      /*
+      home: BasePage(
+        title: "Dashboard",
+        middleContent: Container(
+          color: Colors.white,
+          child: const Center(
+            child: Text("Main Content"),
+          ),
+        ),
+        rightSidebar: Container(
+          color: Colors.white,
+          child: const Center(
+            child: Text("Sidebar Content"),
+          ),
+        showRightSidebar: true,
+      */
+      home: const LandingPageFinal(),
+      // home: const SettingsScreen(),
 
 
     );
