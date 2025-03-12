@@ -117,7 +117,8 @@ class _SettingsContentWidgetState extends State<SettingsContentWidget>
   }
 
   // Helper method to define text style based on whether the section is selected or not.
-  TextStyle _buildSectionTextStyle(bool isSelected) {
+  TextStyle _buildSectionTextStyle(bool isSelected) 
+  {
     FontWeight fontWeight;
     Color color;
     double decorationThickness;
