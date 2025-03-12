@@ -214,7 +214,8 @@ class _SettingsContentWidgetState extends State<SettingsContentWidget>
   }
 
   //Switch widget
-  Widget _buildSwitch(String label, bool value, Function(bool) onChanged) {
+  Widget _buildSwitch(String label, bool value, Function(bool) onChanged) 
+  {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
