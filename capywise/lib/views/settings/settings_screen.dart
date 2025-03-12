@@ -132,7 +132,9 @@ class _SettingsContentWidgetState extends State<SettingsContentWidget>
       decorationColor = Colors.red;
       decorationThickness = 2.0;
       decoration = TextDecoration.underline;
-    } else {
+    } 
+    else 
+    {
       fontWeight = FontWeight.normal;
       color = Colors.black;
       decorationColor = Colors.black;
