@@ -156,7 +156,8 @@ class _SettingsContentWidgetState extends State<SettingsContentWidget>
   }
 
   //General Tab info
-  Widget _buildGeneralSettings() {
+  Widget _buildGeneralSettings() 
+  {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
