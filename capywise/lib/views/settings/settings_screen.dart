@@ -31,7 +31,8 @@ class _SettingsContentWidgetState extends State<SettingsContentWidget>
   String selectedSection = "General";
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) 
+  {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
