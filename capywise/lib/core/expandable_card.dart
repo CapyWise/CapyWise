@@ -1,28 +1,46 @@
 import 'package:flutter/material.dart';
 
-/// A more compact ExpandableCard with left-justified, vertically-centered title.
+/// A compact ExpandableCard that displays:
+/// - A formatted date/time label (e.g. "Tue, Jan 10 • 3:00 PM")
+/// - An event title (e.g. "TIRADENTES")
+/// - An optional tag
+/// - A checkbox
+/// - Edit / Delete icons on the right side when expanded
 class ExpandableCard extends StatefulWidget {
-  final String dayLabel;       // e.g. "TODAY", "10 JAN, TUE"
-  final String timeLabel;      // e.g. "All day", "3PM - 6PM"
-  final String eventTitle;     // e.g. "TIRADENTES", "GREAT ALTERNATIVE"
-  final String? tag;           // e.g. "ASTR132", "Docs.pdf"
-  final bool isChecked;        // checkbox state
-  final Color backgroundColor; // pastel background
-  final Widget? expandedDetails;
+  /// Example: "Tue, Jan 10 • 3:00 PM – 6:00 PM"
+  final String dateTimeLabel;
+
+  /// The event title.
+  final String title;
+
+  /// Optional tag (e.g. "ASTR132").
+  final String? tag;
+
+  /// If the event is checked (like “completed”).
+  final bool isChecked;
+
+  /// Pastel background color.
+  final Color backgroundColor;
+
+  /// Whether to start expanded.
   final bool initiallyExpanded;
-  final ValueChanged<bool>? onCheckChanged;
+
+  /// Callback when user taps edit (pencil).
+  final VoidCallback? onEditPressed;
+
+  /// Callback when user taps delete (trash).
+  final VoidCallback? onDeletePressed;
 
   const ExpandableCard({
     Key? key,
-    required this.dayLabel,
-    required this.timeLabel,
-    required this.eventTitle,
+    required this.dateTimeLabel,
+    required this.title,
     this.tag,
     this.isChecked = false,
     required this.backgroundColor,
-    this.expandedDetails,
     this.initiallyExpanded = false,
-    this.onCheckChanged,
+    this.onEditPressed,
+    this.onDeletePressed,
   }) : super(key: key);
 
   @override
@@ -45,16 +63,9 @@ class _ExpandableCardState extends State<ExpandableCard>
     setState(() => _isExpanded = !_isExpanded);
   }
 
-  void _toggleCheck(bool? value) {
-    if (value == null) return;
-    setState(() => _localChecked = value);
-    widget.onCheckChanged?.call(value);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
-      // Slightly smaller margin between cards
       margin: const EdgeInsets.only(bottom: 8),
       decoration: BoxDecoration(
         color: widget.backgroundColor,
@@ -66,24 +77,24 @@ class _ExpandableCardState extends State<ExpandableCard>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // HEADER: Day label + arrow
+            // ---------- Header row: date/time + arrow ----------
             InkWell(
               onTap: _toggleExpanded,
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start, // left-justify
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(
-                      widget.dayLabel,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        fontFamily: 'Poppins',
+                    // Show the date/time label
+                    Expanded(
+                      child: Text(
+                        widget.dateTimeLabel,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          fontFamily: 'Poppins',
+                        ),
                       ),
                     ),
-                    const Spacer(),
                     Icon(
                       _isExpanded
                           ? Icons.keyboard_arrow_up
@@ -95,17 +106,17 @@ class _ExpandableCardState extends State<ExpandableCard>
               ),
             ),
 
-            // COLLAPSED ROW: Checkbox + time + eventTitle + tag
+            // ---------- Collapsed row: checkbox + title + optional tag ----------
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
               child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.start, // left
                 children: [
-                  // Checkbox
                   Checkbox(
                     value: _localChecked,
-                    onChanged: _toggleCheck,
+                    onChanged: (bool? val) {
+                      if (val == null) return;
+                      setState(() => _localChecked = val);
+                    },
                     materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(4),
@@ -113,46 +124,21 @@ class _ExpandableCardState extends State<ExpandableCard>
                     visualDensity: VisualDensity.compact,
                   ),
                   const SizedBox(width: 6),
-
-                  // Time label
                   Expanded(
-                    flex: 2,
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        widget.timeLabel,
-                        style: const TextStyle(
-                          fontSize: 13,
-                          fontFamily: 'Poppins',
-                        ),
+                    child: Text(
+                      widget.title,
+                      style: const TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                        fontFamily: 'Poppins',
                       ),
                     ),
                   ),
-
-                  // Event title
-                  Expanded(
-                    flex: 3,
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        widget.eventTitle,
-                        style: const TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500,
-                          fontFamily: 'Poppins',
-                        ),
-                      ),
-                    ),
-                  ),
-
-                  // Optional tag
                   if (widget.tag != null) ...[
                     const SizedBox(width: 6),
                     Container(
                       padding: const EdgeInsets.symmetric(
-                        horizontal: 5,
-                        vertical: 2,
-                      ),
+                          horizontal: 5, vertical: 2),
                       decoration: BoxDecoration(
                         color: Colors.black.withOpacity(0.1),
                         borderRadius: BorderRadius.circular(4),
@@ -170,14 +156,28 @@ class _ExpandableCardState extends State<ExpandableCard>
               ),
             ),
 
-            // EXPANDED DETAILS (if any)
-            if (_isExpanded && widget.expandedDetails != null) ...[
-              const SizedBox(height: 4),
+            // ---------- Expanded row: icons on the right ----------
+            if (_isExpanded)
               Padding(
                 padding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
-                child: widget.expandedDetails!,
+                child: Row(
+                  children: [
+                    const Text(
+                      "More details here",
+                      style: TextStyle(fontSize: 13),
+                    ),
+                    const Spacer(),
+                    IconButton(
+                      icon: const Icon(Icons.edit, size: 18),
+                      onPressed: widget.onEditPressed,
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.delete, size: 18),
+                      onPressed: widget.onDeletePressed,
+                    ),
+                  ],
+                ),
               ),
-            ],
           ],
         ),
       ),
