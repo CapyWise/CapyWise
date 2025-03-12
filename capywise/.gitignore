@@ -47,5 +47,3 @@ app.*.map.json
 
 # Other
 node_modules/
-
-lib/main.dart
