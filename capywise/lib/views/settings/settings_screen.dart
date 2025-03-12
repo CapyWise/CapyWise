@@ -62,7 +62,8 @@ class _SettingsContentWidgetState extends State<SettingsContentWidget>
                 child: GestureDetector(
                   onTap: () 
                   {
-                    setState(() {
+                    setState(() 
+                    {
                       selectedSection = "Appearances";
                     });
                   },
