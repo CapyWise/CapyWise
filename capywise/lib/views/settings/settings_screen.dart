@@ -16,7 +16,8 @@ class SettingsScreen extends StatelessWidget {
   }
 }
 
-class SettingsContentWidget extends StatefulWidget {
+class SettingsContentWidget extends StatefulWidget 
+{
   const SettingsContentWidget({super.key});
 
   @override
