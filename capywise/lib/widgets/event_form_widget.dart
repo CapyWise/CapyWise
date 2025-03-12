@@ -6,6 +6,7 @@ class EventFormWidget extends StatefulWidget {
 }
 
 class _EventFormWidgetState extends State<EventFormWidget> {
+  final TextEditingController titleController = TextEditingController();
   final TextEditingController placeController = TextEditingController();
   final TextEditingController notesController = TextEditingController();
   DateTime? selectedDate;
@@ -17,7 +18,7 @@ class _EventFormWidgetState extends State<EventFormWidget> {
   Future<void> _selectDate() async {
     DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
+      initialDate: selectedDate ?? DateTime.now(),
       firstDate: DateTime(2000),
       lastDate: DateTime(2101),
     );
@@ -31,7 +32,7 @@ class _EventFormWidgetState extends State<EventFormWidget> {
   Future<void> _selectTime() async {
     TimeOfDay? picked = await showTimePicker(
       context: context,
-      initialTime: TimeOfDay.now(),
+      initialTime: selectedTime ?? TimeOfDay.now(),
     );
     if (picked != null) {
       setState(() {
@@ -41,7 +42,12 @@ class _EventFormWidgetState extends State<EventFormWidget> {
   }
 
   void _saveEvent() {
-    print("Event Saved!");
+    print("Event Saved with title: ${titleController.text}");
+    print("Place: ${placeController.text}");
+    print("Date: $selectedDate");
+    print("Time: $selectedTime");
+    print("Notes: ${notesController.text}");
+    print("Color: $selectedColor");
     Navigator.pop(context); // Close dialog after saving
   }
 
@@ -51,7 +57,7 @@ class _EventFormWidgetState extends State<EventFormWidget> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: Container(
         width: 440,
-        height: 400,
+        height: 456,
         padding: EdgeInsets.all(20),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -68,30 +74,69 @@ class _EventFormWidgetState extends State<EventFormWidget> {
             ),
             SizedBox(height: 4),
 
-            // Event Title & Color Selector (moved down)
+            // Event Title & Color Selector
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Event Title", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                Expanded(
+                  child: TextField(
+                    controller: titleController,
+                    decoration: InputDecoration(
+                      hintText: "Event Title",
+                      hintStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                      border: InputBorder.none,
+                      contentPadding: EdgeInsets.symmetric(vertical: 12),
+                    ),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  ),
+                ),
                 _buildColorDropdown(),
               ],
             ),
             SizedBox(height: 16),
 
             // Place
-            _buildButton(Icons.location_on, "Add Place", () {}),
+            _buildInputField(
+              Icons.location_on, 
+              "Add Place", 
+              placeController,
+              56, // Custom height
+            ),
+
+            SizedBox(height: 10),
 
             // Date & Time
             Row(
               children: [
-                Expanded(child: _buildButton(Icons.calendar_today, "Add Date", _selectDate)),
+                Expanded(
+                  child: _buildDateField(
+                    Icons.calendar_today, 
+                    selectedDate != null 
+                      ? "${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}" 
+                      : "Add Date",
+                  ),
+                ),
                 SizedBox(width: 10),
-                Expanded(child: _buildButton(Icons.access_time, "Add Time", _selectTime)),
+                Expanded(
+                  child: _buildTimeField(
+                    Icons.access_time, 
+                    selectedTime != null 
+                      ? "${selectedTime!.hour}:${selectedTime!.minute.toString().padLeft(2, '0')}" 
+                      : "Add Time",
+                  ),
+                ),
               ],
             ),
 
+            SizedBox(height: 10),
+
             // Notes
-            _buildButton(Icons.note, "Add Notes", () {}),
+            _buildInputField(
+              Icons.note, 
+              "Add Notes", 
+              notesController,
+              120, // Custom height for notes
+            ),
 
             SizedBox(height: 16),
 
@@ -123,7 +168,6 @@ class _EventFormWidgetState extends State<EventFormWidget> {
       },
       itemBuilder: (context) {
         return colorOptions
-            //.where((color) => color != selectedColor) // Hide currently selected color
             .map((color) => PopupMenuItem<Color>(
                   value: color,
                   child: Container(
@@ -131,7 +175,7 @@ class _EventFormWidgetState extends State<EventFormWidget> {
                     height: 24,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      border: Border.all(color: color), // Hollow circle
+                      color: color,
                     ),
                   ),
                 ))
@@ -162,21 +206,68 @@ class _EventFormWidgetState extends State<EventFormWidget> {
     );
   }
 
-  // Custom Styled Buttons for Place, Date, Time, Notes
-  Widget _buildButton(IconData icon, String text, VoidCallback onTap) {
-    return TextButton(
-      onPressed: onTap,
-      style: TextButton.styleFrom(
-        padding: EdgeInsets.symmetric(vertical: 14),
-        backgroundColor: Colors.grey[200],
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+  // Custom Styled Input Field
+  Widget _buildInputField(IconData icon, String hint, TextEditingController controller, double height) {
+    return Container(
+      height: height,
+      decoration: BoxDecoration(
+        color: Colors.grey[200],
+        borderRadius: BorderRadius.circular(8),
       ),
-      child: Row(
-        children: [
-          Icon(icon, color: Colors.grey[600], size: 20),
-          SizedBox(width: 10),
-          Text(text, style: TextStyle(color: Colors.grey[700], fontSize: 16)),
-        ],
+      child: TextField(
+        controller: controller,
+        decoration: InputDecoration(
+          hintText: hint,
+          prefixIcon: Icon(icon, color: Colors.grey[600], size: 20),
+          border: InputBorder.none,
+          contentPadding: EdgeInsets.symmetric(vertical: 14, horizontal: 10),
+        ),
+        style: TextStyle(color: Colors.grey[700], fontSize: 16),
+        maxLines: null,
+      ),
+    );
+  }
+
+  // Date Field
+  Widget _buildDateField(IconData icon, String text) {
+    return GestureDetector(
+      onTap: _selectDate,
+      child: Container(
+        height: 64,
+        decoration: BoxDecoration(
+          color: Colors.grey[200],
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Row(
+          children: [
+            SizedBox(width: 12),
+            Icon(icon, color: Colors.grey[600], size: 20),
+            SizedBox(width: 10),
+            Text(text, style: TextStyle(color: Colors.grey[700], fontSize: 16)),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // Time Field
+  Widget _buildTimeField(IconData icon, String text) {
+    return GestureDetector(
+      onTap: _selectTime,
+      child: Container(
+        height: 64,
+        decoration: BoxDecoration(
+          color: Colors.grey[200],
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Row(
+          children: [
+            SizedBox(width: 12),
+            Icon(icon, color: Colors.grey[600], size: 20),
+            SizedBox(width: 10),
+            Text(text, style: TextStyle(color: Colors.grey[700], fontSize: 16)),
+          ],
+        ),
       ),
     );
   }
