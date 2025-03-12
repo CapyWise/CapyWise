@@ -105,7 +105,8 @@ class _SettingsContentWidgetState extends State<SettingsContentWidget>
   }
 
   // Builds the section text with the proper styling.
-  Widget _buildSectionText(String section) {
+  Widget _buildSectionText(String section) 
+  {
     bool isSelected = selectedSection == section;
     TextStyle sectionTextStyle = _buildSectionTextStyle(isSelected);
     
