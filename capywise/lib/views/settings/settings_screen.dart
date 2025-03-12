@@ -148,11 +148,16 @@ class _SettingsContentWidgetState extends State<SettingsContentWidget>
 
   //Displays content based off of tab selection, default is 'General'
   Widget _buildSettingsContent() {
-    if (selectedSection == "General") {
+    if (selectedSection == "General") 
+    {
       return _buildGeneralSettings();
-    } else if (selectedSection == "Appearances") {
+    } 
+    else if (selectedSection == "Appearances") 
+    {
       return _buildAppearanceSettings();
-    } else {
+    } 
+    else 
+    {
       return const SizedBox(); // Default case, in case of an unknown section
     }
   }
