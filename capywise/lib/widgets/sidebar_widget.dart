@@ -11,14 +11,16 @@ import 'package:flutter/material.dart';
 /// - **Logout button** with proper spacing and alignment.
 /// 
 /// This sidebar is designed to be used across multiple pages in an app.
-class SidebarWidget extends StatefulWidget {
+class SidebarWidget extends StatefulWidget 
+{
     const SidebarWidget({super.key});
 
     @override
     SidebarWidgetState createState() => SidebarWidgetState();
 }
 
-class SidebarWidgetState extends State<SidebarWidget> {
+class SidebarWidgetState extends State<SidebarWidget> 
+{
     bool isCollapsed = true; // Default state: collapsed
     int selectedIndex = 0; // Tracks which navigation item is selected
     int? hoveredIndex; // Tracks which navigation item is hovered
@@ -107,7 +109,8 @@ class SidebarWidgetState extends State<SidebarWidget> {
     }
 
     /// **Builds a navigation item with hover effects and click selection**
-    Widget buildNavItem(IconData icon, String label, int index) {
+    Widget buildNavItem(IconData icon, String label, int index) 
+    {
         return Padding(
             padding: const EdgeInsets.symmetric(vertical: 2), // Prevents hover effect overlap
             child: MouseRegion(
@@ -168,7 +171,8 @@ class SidebarWidgetState extends State<SidebarWidget> {
     }
 
     /// **Builds the Profile Section**
-    Widget buildProfileSection() {
+    Widget buildProfileSection() 
+    {
         return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Row(
@@ -203,7 +207,8 @@ class SidebarWidgetState extends State<SidebarWidget> {
     }
 
     /// **Builds the Logout Button**
-    Widget buildLogoutButton() {
+    Widget buildLogoutButton() 
+    {
         return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
             child: SizedBox(

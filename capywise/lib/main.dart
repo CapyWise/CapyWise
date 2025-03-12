@@ -1,22 +1,25 @@
 import 'package:flutter/material.dart';
 import 'core/base_page.dart';
+import 'views/auth/landing_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
-
-void main() async {
+void main() async 
+{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatelessWidget
+{
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) 
+  {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Web App',
@@ -30,6 +33,7 @@ class MyApp extends StatelessWidget {
         splashColor: Colors.transparent, // No splash effect
         highlightColor: Colors.transparent, // No highlight effect
       ),
+      /*
       home: BasePage(
         title: "Dashboard",
         middleContent: Container(
@@ -43,9 +47,9 @@ class MyApp extends StatelessWidget {
           child: const Center(
             child: Text("Sidebar Content"),
           ),
-        ),
         showRightSidebar: true,
-      ),
+      */
+      home: const LandingPageFinal(),
     );
   }
 }
