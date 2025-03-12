@@ -201,7 +201,8 @@ class _SettingsContentWidgetState extends State<SettingsContentWidget>
   }
 
 //Informaion on Appearance tab
-  Widget _buildAppearanceSettings() {
+  Widget _buildAppearanceSettings() 
+  {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
