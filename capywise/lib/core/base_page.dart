@@ -5,33 +5,57 @@ import '../widgets/sidebar_widget.dart';
 /// 
 /// This layout consists of:
 /// - A **left sidebar** for navigation.
-/// - A **header** with a title, dropdown, and action buttons.
+/// - A **header** with a title, customizable action buttons, and a bottom bar for additional widgets.
 /// - A **main content area** in the center.
 /// - An **optional right sidebar** for additional widgets.
 ///
 /// ### Example Usage:
-/// ``'dart
+/// ```dart
 /// BasePage(
 ///   title: "Dashboard",
 ///   middleContent: DashboardContentWidget(),
 ///   rightSidebar: NotificationsWidget(),
 ///   showRightSidebar: true, // Set to false to hide the right sidebar
 /// )
-/// 
+/// ```
+///
 /// ### More custom usage example:
-/// class SettingsPage extends StatelessWidget {
+/// ```dart
+/// class SettingsPage extends StatelessWidget
+/// {
 ///  @override
-///  Widget build(BuildContext context) {
+///  Widget build(BuildContext context)
+///  {
 ///    return BasePage(
 ///      title: "Settings",
 ///      middleContent: const SettingsContentWidget(), // Replace with actual content
 ///      rightSidebar: const FiltersWidget(), // Replace with actual sidebar widget
+///      actionButtons: [
+///        ElevatedButton(
+///          onPressed: () {},
+///          child: const Text("Save"),
+///        ),
+///        OutlinedButton(
+///          onPressed: () {},
+///          child: const Text("Cancel"),
+///        ),
+///      ],
+///      bottomHeaderBar: [
+///        DropdownButton<String>(
+///          items: const [
+///            DropdownMenuItem(value: "Profile", child: Text("Profile Settings")),
+///            DropdownMenuItem(value: "Privacy", child: Text("Privacy Settings")),
+///          ],
+///          onChanged: (String? value) {},
+///          hint: const Text("Choose a setting"),
+///        ),
+///      ],
 ///    );
 ///  }
-///}
-
+/// }
 /// ```
-class BasePage extends StatelessWidget {
+class BasePage extends StatelessWidget
+{
   /// The title displayed in the header.
   final String title;
 
@@ -44,24 +68,33 @@ class BasePage extends StatelessWidget {
   /// Controls whether the right sidebar is visible.
   final bool showRightSidebar;
 
-  /// Constructs a [BasePage] with required [title] and [middleContent].
-  /// The [rightSidebar] is optional and can be hidden by setting [showRightSidebar] to false.
+  /// **Action Buttons Area** (Top-right section of the header).
+  /// This can include any widgets such as buttons, icons, or dropdown menus.
+  final List<Widget>? actionButtons;
+
+  /// **Bottom Header Bar** (Below the title).
+  /// This can include additional buttons, filters, dropdowns, or any widget.
+  final List<Widget>? bottomHeaderBar;
+
+  /// Constructs a [BasePage] with customizable action buttons and bottom header bar.
   const BasePage({
     super.key,
     required this.title,
     required this.middleContent,
     this.rightSidebar,
     this.showRightSidebar = true,
+    this.actionButtons,
+    this.bottomHeaderBar,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)
+  {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 250, 232, 232), // Light pink background
       body: Row(
         children: [
           /// **Left Sidebar (Navigation)**
-          /// This remains consistent across all pages and contains navigation items.
           const SidebarWidget(),
 
           /// **Main Page Content**
@@ -70,25 +103,19 @@ class BasePage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 /// **Header Section**
-                /// Displays the page title, a dropdown menu, and action buttons.
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
                   color: const Color(0xFFFCE8E8), // Light pink header background
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-                  color: const Color(0xFFFCE8E8), // Light pink header background
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      /// **Title & Dropdown**
-                      /// Displays the page title and an optional dropdown for user selection.
-                      Column(
+                      /// **Title & Action Buttons**
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                        children: [
+                          /// **Title Section**
                           Text(
-                            title,
-                            style: const TextStyle(
                             title,
                             style: const TextStyle(
                               fontSize: 20,
@@ -96,91 +123,46 @@ class BasePage extends StatelessWidget {
                               fontFamily: 'Poppins',
                             ),
                           ),
-                          const SizedBox(height: 5),
 
-                          /// **Example Dropdown Menu**
-                          /// You can customize this dropdown or replace it with another widget.
-                          DropdownButton<String>(
-                            items: const [
-                            items: const [
-                              DropdownMenuItem(
-                                value: "Option 1",
-                                child: Text("Option 1"),
-                                child: Text("Option 1"),
-                              ),
-                              DropdownMenuItem(
-                                value: "Option 2",
-                                child: Text("Option 2"),
-                                child: Text("Option 2"),
-                              ),
-                            ],
-                            onChanged: (String? newValue) {
-                              // Handle dropdown selection (Add logic here)
-                            },
-                            hint: const Text(
-                            hint: const Text(
-                              "Choose something",
-                              style: TextStyle(fontFamily: 'Poppins'),
-                              style: TextStyle(fontFamily: 'Poppins'),
-                            ),
-                          ),
+                          /// **Action Buttons Area (Top Right)**
+                          if (actionButtons != null && actionButtons!.isNotEmpty)
+                          Row(
+                            children: actionButtons!,
+                          )
                         ],
                       ),
 
-                      /// **Action Buttons**
-                      /// Customize these buttons based on page-specific actions.
-                      Row(
-                        children: [
-                        children: [
-                          ElevatedButton(
-                            onPressed: () {
-                              // TODO: Define primary action
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color.fromARGB(255, 43, 10, 48),
-                              foregroundColor: Colors.white,
-                            ),
-                            child: const Text("Primary Action"),
-                            child: const Text("Primary Action"),
-                          ),
-                          const SizedBox(width: 10),
-                          const SizedBox(width: 10),
-                          OutlinedButton(
-                            onPressed: () {
-                              // Define secondary action here
-                            },
-                            child: const Text("Default"),
-                          ),
-                        ],
-                      ),
+                      /// **Bottom Header Bar**
+                      if (bottomHeaderBar != null && bottomHeaderBar!.isNotEmpty)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: Row(
+                          children: bottomHeaderBar!,
+                        ),
+                      )
                     ],
                   ),
                 ),
 
                 /// **Main Content Section**
-                /// Contains the middle content and an optional right sidebar.
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.all(20),
                     padding: const EdgeInsets.all(20),
                     child: Row(
                       children: [
                         /// **Primary Content Area**
-                        /// The main content widget passed as a parameter.
                         Expanded(
-                          flex: 3, // Takes 3x space relative to the right sidebar
+                          flex: 3,
                           child: middleContent,
                         ),
 
                         /// **Optional Right Sidebar**
-                        /// If enabled, it displays additional widgets like notifications.
-                        if (showRightSidebar && rightSidebar != null) ...[
-                          const SizedBox(width: 20),
-                          Expanded(
-                            flex: 1, // Right sidebar takes 1x space
-                            child: rightSidebar!,
-                          ),
-                        ]
+                        if (showRightSidebar && rightSidebar != null)
+                        const SizedBox(width: 20),
+                        Expanded(
+                          flex: 1,
+                          child: rightSidebar!,
+                        ),
                       ],
                     ),
                   ),
