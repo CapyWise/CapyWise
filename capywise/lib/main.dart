@@ -4,7 +4,7 @@ import 'core/base_page.dart';
 import 'views/auth/landing_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
-import 'views/settings/settings_screen.dart';
+import 'widgets/event_form_widget.dart';
 
 void main() async
 {
@@ -102,8 +102,8 @@ class MyApp extends StatelessWidget
         ],
       ),
       */
-      home: const LandingPageFinal(),
-      //home: const SettingsScreen(),
+      //home: const LandingPageFinal(),
+      home: EventFormWidget(),
     );
   }
 }
