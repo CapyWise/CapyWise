@@ -14,7 +14,14 @@ class _EventFormWidgetState extends State<EventFormWidget> {
   Color selectedColor = Colors.pink; // Default color
 
   final List<Color> colorOptions = [Colors.yellow, Colors.cyan, Colors.pink];
-
+  
+  // Form key for validation
+  final _formKey = GlobalKey<FormState>();
+  
+  // Error messages
+  String? titleError;
+  String? dateError;
+  
   Future<void> _selectDate() async {
     DateTime? picked = await showDatePicker(
       context: context,
@@ -25,6 +32,7 @@ class _EventFormWidgetState extends State<EventFormWidget> {
     if (picked != null) {
       setState(() {
         selectedDate = picked;
+        dateError = null; // Clear any date error when date is selected
       });
     }
   }
@@ -41,14 +49,70 @@ class _EventFormWidgetState extends State<EventFormWidget> {
     }
   }
 
+  // Validate all inputs
+  bool _validateInputs() {
+    bool isValid = true;
+    
+    // Reset error messages first
+    setState(() {
+      titleError = null;
+      dateError = null;
+    });
+    
+    // Title validation
+    if (titleController.text.trim().isEmpty) {
+      setState(() {
+        titleError = "Event title is required";
+      });
+      isValid = false;
+    } else if (titleController.text.trim().length < 3) {
+      setState(() {
+        titleError = "Title must be at least 3 characters";
+      });
+      isValid = false;
+    }
+    
+    // Date validation
+    if (selectedDate == null) {
+      setState(() {
+        dateError = "Please select a date";
+      });
+      isValid = false;
+    } else {
+      // Validate that date is not in the past
+      final now = DateTime.now();
+      final today = DateTime(now.year, now.month, now.day);
+      final selectedDay = DateTime(selectedDate!.year, selectedDate!.month, selectedDate!.day);
+      
+      if (selectedDay.isBefore(today)) {
+        setState(() {
+          dateError = "Date cannot be in the past";
+        });
+        isValid = false;
+      }
+    }
+    
+    return isValid;
+  }
+
   void _saveEvent() {
-    print("Event Saved with title: ${titleController.text}");
-    print("Place: ${placeController.text}");
-    print("Date: $selectedDate");
-    print("Time: $selectedTime");
-    print("Notes: ${notesController.text}");
-    print("Color: $selectedColor");
-    Navigator.pop(context); // Close dialog after saving
+    if (_validateInputs()) {
+      print("Event Saved with title: ${titleController.text}");
+      print("Place: ${placeController.text}");
+      print("Date: $selectedDate");
+      print("Time: $selectedTime");
+      print("Notes: ${notesController.text}");
+      print("Color: $selectedColor");
+      Navigator.pop(context); // Close dialog after saving
+    } else {
+      // Show error toast or snackbar
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Please fix the errors before saving"),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
   }
 
   @override
@@ -57,102 +121,131 @@ class _EventFormWidgetState extends State<EventFormWidget> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: Container(
         width: 440,
-        height: 456,
+        height: 500, // Increased height to accommodate error messages
         padding: EdgeInsets.all(20),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            // Top Row: Close Button
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                GestureDetector(
-                  onTap: () => Navigator.pop(context), // Close dialog
-                  child: Icon(Icons.close, color: Colors.black54),
-                ),
-              ],
-            ),
-            SizedBox(height: 4),
-
-            // Event Title & Color Selector
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: titleController,
-                    decoration: InputDecoration(
-                      hintText: "Event Title",
-                      hintStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                      border: InputBorder.none,
-                      contentPadding: EdgeInsets.symmetric(vertical: 12),
-                    ),
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Top Row: Close Button
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  GestureDetector(
+                    onTap: () => Navigator.pop(context), // Close dialog
+                    child: Icon(Icons.close, color: Colors.black54),
                   ),
-                ),
-                _buildColorDropdown(),
-              ],
-            ),
-            SizedBox(height: 16),
-
-            // Place
-            _buildInputField(
-              Icons.location_on, 
-              "Add Place", 
-              placeController,
-              56, // Custom height
-            ),
-
-            SizedBox(height: 10),
-
-            // Date & Time
-            Row(
-              children: [
-                Expanded(
-                  child: _buildDateField(
-                    Icons.calendar_today, 
-                    selectedDate != null 
-                      ? "${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}" 
-                      : "Add Date",
-                  ),
-                ),
-                SizedBox(width: 10),
-                Expanded(
-                  child: _buildTimeField(
-                    Icons.access_time, 
-                    selectedTime != null 
-                      ? "${selectedTime!.hour}:${selectedTime!.minute.toString().padLeft(2, '0')}" 
-                      : "Add Time",
-                  ),
-                ),
-              ],
-            ),
-
-            SizedBox(height: 10),
-
-            // Notes
-            _buildInputField(
-              Icons.note, 
-              "Add Notes", 
-              notesController,
-              120, // Custom height for notes
-            ),
-
-            SizedBox(height: 16),
-
-            // Save Button
-            SizedBox(
-              width: 80,
-              child: ElevatedButton(
-                onPressed: _saveEvent,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                ),
-                child: Text("Save"),
+                ],
               ),
-            ),
-          ],
+              SizedBox(height: 4),
+
+              // Event Title & Color Selector
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TextField(
+                          controller: titleController,
+                          decoration: InputDecoration(
+                            hintText: "Event Title",
+                            hintStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                            border: InputBorder.none,
+                            contentPadding: EdgeInsets.symmetric(vertical: 12),
+                            errorText: titleError,
+                          ),
+                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                          onChanged: (value) {
+                            if (titleError != null) {
+                              setState(() {
+                                titleError = null; // Clear error when user types
+                              });
+                            }
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                  _buildColorDropdown(),
+                ],
+              ),
+              SizedBox(height: 16),
+
+              // Place
+              _buildInputField(
+                Icons.location_on, 
+                "Add Place", 
+                placeController,
+                56, // Custom height
+              ),
+
+              SizedBox(height: 10),
+
+              // Date & Time
+              Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildDateField(
+                          Icons.calendar_today, 
+                          selectedDate != null 
+                            ? "${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}" 
+                            : "Add Date",
+                        ),
+                        if (dateError != null)
+                          Padding(
+                            padding: const EdgeInsets.only(left: 12, top: 4),
+                            child: Text(
+                              dateError!,
+                              style: TextStyle(color: Colors.red, fontSize: 12),
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(width: 10),
+                  Expanded(
+                    child: _buildTimeField(
+                      Icons.access_time, 
+                      selectedTime != null 
+                        ? "${selectedTime!.hour}:${selectedTime!.minute.toString().padLeft(2, '0')}" 
+                        : "Add Time",
+                    ),
+                  ),
+                ],
+              ),
+
+              SizedBox(height: 10),
+
+              // Notes
+              _buildInputField(
+                Icons.note, 
+                "Add Notes", 
+                notesController,
+                120, // Custom height for notes
+              ),
+
+              SizedBox(height: 16),
+
+              // Save Button
+              SizedBox(
+                width: 80,
+                child: ElevatedButton(
+                  onPressed: _saveEvent,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                  ),
+                  child: Text("Save"),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -237,6 +330,9 @@ class _EventFormWidgetState extends State<EventFormWidget> {
         decoration: BoxDecoration(
           color: Colors.grey[200],
           borderRadius: BorderRadius.circular(8),
+          border: dateError != null 
+              ? Border.all(color: Colors.red, width: 1.0)
+              : null,
         ),
         child: Row(
           children: [
