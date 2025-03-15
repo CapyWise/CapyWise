@@ -4,11 +4,8 @@ import 'core/base_page.dart';
 import 'views/auth/landing_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
-<<<<<<< HEAD
 import 'views/settings/settings_screen.dart';
-=======
 import 'widgets/calendar_widget.dart';
->>>>>>> 96afae8 (JSH-171 adding weekly calendar view widget)
 
 void main() async
 {
@@ -40,8 +37,6 @@ class MyApp extends StatelessWidget
         splashColor: Colors.transparent, // No splash effect
         highlightColor: Colors.transparent, // No highlight effect
       ),
-<<<<<<< HEAD
-<<<<<<< HEAD
 
 /*
       home: BasePage(
@@ -108,43 +103,9 @@ class MyApp extends StatelessWidget
         ],
       ),
       */
-<<<<<<< HEAD
-      home: const LandingPageFinal(),
       //home: const SettingsScreen(),
-=======
       //home: const LandingPageFinal(),
       home: const CalendarWidget(),
->>>>>>> 96afae8 (JSH-171 adding weekly calendar view widget)
-=======
-=======
-      /*
->>>>>>> 9e55507 (testing)
-      home: BasePage(
-        title: "Dashboard",
-        middleContent: Container(
-          color: Colors.white,
-          child: const Center(
-            child: Text("Main Content"),
-          ),
-        ),
-        rightSidebar: Container(
-          color: Colors.white,
-          child: const Center(
-            child: Text("Sidebar Content"),
-          ),
-        ),
-        showRightSidebar: true,
-      ),
-      */
-         
-      //home: const LandingPageFinal(),
-<<<<<<< HEAD
-      //home: const CalendarWidget(),
->>>>>>> 2baf4d5 (comments)
-=======
-      home: const CalendarWidget(),
-
->>>>>>> 9e55507 (testing)
     );
   }
 }
