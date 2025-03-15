@@ -201,23 +201,13 @@ packages:
     source: hosted
     version: "4.1.2"
   intl:
-<<<<<<< HEAD
     dependency: "direct main"
-    description:
-      name: intl
-      sha256: "910f85bce16fb5c6f614e117efa303e85a1731bb0081edf3604a2ae6e9a3cc91"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.17.0"
-=======
-    dependency: transitive
     description:
       name: intl
       sha256: "3df61194eb431efc39c4ceba583b95633a403f46c9fd341e550ce0bfa50e9aa5"
       url: "https://pub.dev"
     source: hosted
     version: "0.20.2"
->>>>>>> 96afae8 (JSH-171 adding weekly calendar view widget)
   leak_tracker:
     dependency: transitive
     description:
@@ -331,26 +321,26 @@ packages:
     dependency: "direct main"
     description:
       name: syncfusion_flutter_calendar
-      sha256: "444de97831fda40b595ae4c97b4412850b8ee568b75a35be473b329bddcf0290"
+      sha256: "11b01bc7ad1d240d7c644081bda79e61c0a8d26eec7eba67bfc7274310562897"
       url: "https://pub.dev"
     source: hosted
-    version: "28.2.9"
+    version: "28.2.11"
   syncfusion_flutter_core:
     dependency: transitive
     description:
       name: syncfusion_flutter_core
-      sha256: "5a1a76eef118e511443b299925d4a802eb8259388d6a580e0ad6413d1a70f987"
+      sha256: "59b6d2a7deacade6129d2f15615ca49ed56278fea055cd2e52cace78a343dd5e"
       url: "https://pub.dev"
     source: hosted
-    version: "28.2.9"
+    version: "28.2.11"
   syncfusion_flutter_datepicker:
     dependency: transitive
     description:
       name: syncfusion_flutter_datepicker
-      sha256: "5621712605381a5c488632a04d180b865dd7f297a05e78d4a6ab9cfb4a3bdb59"
+      sha256: "73ece73742f123c750d674461c6902cbdf32fbd695c15fdf7e8487d290bb7179"
       url: "https://pub.dev"
     source: hosted
-    version: "28.2.9"
+    version: "28.2.11+1"
   term_glyph:
     dependency: transitive
     description:
@@ -403,10 +393,10 @@ packages:
     dependency: transitive
     description:
       name: web
-      sha256: cd3543bd5798f6ad290ea73d210f423502e71900302dde696f8bff84bf89a1cb
+      sha256: "868d88a33d8a87b18ffc05f9f030ba328ffefba92d6c127917a2ba740f9cfe4a"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.0"
+    version: "1.1.1"
 sdks:
   dart: ">=3.7.0 <4.0.0"
   flutter: ">=3.22.0"

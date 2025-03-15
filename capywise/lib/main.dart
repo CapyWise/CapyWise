@@ -37,7 +37,6 @@ class MyApp extends StatelessWidget
         splashColor: Colors.transparent, // No splash effect
         highlightColor: Colors.transparent, // No highlight effect
       ),
-
 /*
       home: BasePage(
         title: "Title", // Generic title for the page
