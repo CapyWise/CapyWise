@@ -102,8 +102,7 @@ class MyApp extends StatelessWidget
         ],
       ),
       */
-      //home: const LandingPageFinal(),
-      home: EventFormWidget(),
+      home: const LandingPageFinal(),
     );
   }
 }
